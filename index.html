@@ -154,14 +154,14 @@ main{z-index:1}
 a.plot:hover{transform:translateY(-3px);box-shadow:0 14px 30px -12px rgba(0,0,0,.8)}
 a.plot:focus-visible{outline:2px solid var(--night);outline-offset:3px}
 .plot .pimg{position:relative;aspect-ratio:1/1;overflow:hidden;background:#000}
-.plot .pimg img{display:block;width:100%;height:100%;object-fit:cover}
+.plot .pimg img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .4s}
+a.plot:hover .pimg img{transform:scale(1.04)}
+a.plot{cursor:pointer}
 .plot .cnt{position:absolute;top:10px;left:10px;display:flex;align-items:center;gap:5px;padding:4px 10px 4px 8px;border-radius:9px;background:rgba(40,40,46,.82);font:600 14px/1.3 system-ui,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;color:#fff}
 .plot .cnt svg{width:15px;height:15px}
 .plot .pbody{padding:12px 14px 14px;font-family:system-ui,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif}
 .plot h3{margin:0 0 6px;font-size:17px;line-height:1.35;font-weight:700;color:#fff;word-break:keep-all}
 .plot .pdesc{margin:0 0 6px;font-size:14px;line-height:1.45;color:#d9d8de;word-break:keep-all}
-.plot .go{display:block;margin-top:10px;padding:9px 0;border-radius:8px;background:rgba(255,255,255,.08);text-align:center;font-size:14px;font-weight:600;color:#fff}
-a.plot:hover .go{background:rgba(208,40,58,.45)}
 .plot .tags{margin:0;font-size:14px;color:#8d8b96;white-space:nowrap;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,#000 85%,transparent);mask-image:linear-gradient(90deg,#000 85%,transparent)}
 @media(max-width:720px){.plots{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.plot h3{font-size:15px}.plot .pdesc,.plot .tags{font-size:13px}.plot .pbody{padding:10px 11px 12px}}
 footer{text-align:center;color:var(--mute);font-size:13px;margin-top:64px}
@@ -383,7 +383,7 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
   const BUBBLE = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5c-5 0-9 3.3-9 7.4 0 2.4 1.4 4.5 3.5 5.9l-.8 3.4 3.9-2.1c.8.2 1.6.2 2.4.2 5 0 9-3.3 9-7.4S17 3.5 12 3.5z" fill="currentColor"/></svg>';
   document.getElementById("plots").innerHTML = PLOTS.map(pl => {
     const inner = `<div class="pimg"><img src="${esc(pl.img)}" alt="${esc(pl.title)} 표지" loading="lazy"></div>
-      <div class="pbody"><h3>${esc(pl.title)}</h3><p class="pdesc">${esc(pl.desc)}</p><p class="tags">${pl.tags.map(t => "#" + esc(t)).join(" ")}</p>${pl.url ? `<span class="go">플롯 보러 가기 →</span>` : ""}</div>`;
+      <div class="pbody"><h3>${esc(pl.title)}</h3><p class="pdesc">${esc(pl.desc)}</p><p class="tags">${pl.tags.map(t => "#" + esc(t)).join(" ")}</p></div>`;
     return pl.url ? `<a class="plot" href="${esc(pl.url)}" rel="noopener">${inner}</a>` : `<article class="plot">${inner}</article>`;
   }).join("");
 
