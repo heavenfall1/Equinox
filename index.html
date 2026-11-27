@@ -170,6 +170,7 @@ a.plot{cursor:pointer}
 .plot .pdesc{margin:0 0 6px;font-size:14px;line-height:1.45;color:#d9d8de;word-break:keep-all}
 .plot .tags{margin:0;font-size:14px;color:#8d8b96;white-space:nowrap;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,#000 85%,transparent);mask-image:linear-gradient(90deg,#000 85%,transparent)}
 @media(max-width:720px){.plots{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.plot h3{font-size:15px}.plot .pdesc,.plot .tags{font-size:13px}.plot .pbody{padding:10px 11px 12px}}
+img,canvas,.cover-bg{-webkit-user-drag:none;user-drag:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
 footer{text-align:center;color:var(--mute);font-size:13px;margin-top:64px}
 footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;margin-bottom:6px}
 @media(prefers-reduced-motion:no-preference){.detail:not([hidden]){animation:rise .45s ease}@keyframes rise{from{opacity:0;transform:translateY(10px)}}}
@@ -424,6 +425,10 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
       <div class="pbody"><h3>${esc(pl.title)}</h3><p class="pdesc">${esc(pl.desc)}</p><p class="tags">${pl.tags.map(t => "#" + esc(t)).join(" ")}</p></div>`;
     return pl.url ? `<a class="plot" href="${esc(pl.url)}" target="_blank" rel="noopener">${inner}</a>` : `<article class="plot">${inner}</article>`;
   }).join("");
+
+  // 이미지 우클릭·드래그 저장 방지
+  addEventListener("contextmenu", e => { if(e.target.closest("img, canvas, .pimg, .por, .pic, .hero, .cover")) e.preventDefault(); });
+  addEventListener("dragstart", e => { if(e.target.closest("img, canvas")) e.preventDefault(); });
 
   const fromHash = () => { show(location.hash.slice(1) || null); if(!detail.hidden) requestAnimationFrame(() => detail.scrollIntoView({behavior:"smooth", block:"start"})); };
   addEventListener("hashchange", fromHash);
