@@ -384,7 +384,7 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
   document.getElementById("plots").innerHTML = PLOTS.map(pl => {
     const inner = `<div class="pimg"><img src="${esc(pl.img)}" alt="${esc(pl.title)} 표지" loading="lazy"></div>
       <div class="pbody"><h3>${esc(pl.title)}</h3><p class="pdesc">${esc(pl.desc)}</p><p class="tags">${pl.tags.map(t => "#" + esc(t)).join(" ")}</p></div>`;
-    return pl.url ? `<a class="plot" href="${esc(pl.url)}" rel="noopener">${inner}</a>` : `<article class="plot">${inner}</article>`;
+    return pl.url ? `<a class="plot" href="${esc(pl.url)}" target="_blank" rel="noopener">${inner}</a>` : `<article class="plot">${inner}</article>`;
   }).join("");
 
   const fromHash = () => { show(location.hash.slice(1) || null); if(!detail.hidden) requestAnimationFrame(() => detail.scrollIntoView({behavior:"smooth", block:"start"})); };
