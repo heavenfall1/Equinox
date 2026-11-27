@@ -25,8 +25,8 @@ main{position:relative;max-width:880px;margin:0 auto;padding:0 max(5vw,16px) 80p
 .hero{position:relative;margin:0 auto;border-radius:6px;overflow:hidden;border:1px solid var(--line);box-shadow:0 30px 80px -30px rgba(208,40,58,.35)}
 .hero img{display:block;width:100%;aspect-ratio:1280/512;object-fit:cover}
 .hero::after{content:"";position:absolute;inset:0;background:linear-gradient(transparent 55%,rgba(7,6,10,.55))}
-.welcome{text-align:center;margin:28px 0 8px;font-size:clamp(16px,2.4vw,19px);text-wrap:balance}
-.welcome b{font-weight:700;background:linear-gradient(90deg,var(--day),#f0d6da 50%,var(--night));-webkit-background-clip:text;background-clip:text;color:transparent}
+.welcome{text-align:center;margin:28px 0 8px;font-size:clamp(17px,2.4vw,20px);line-height:1.6;color:#f3f1f7;text-wrap:balance;word-break:keep-all;text-shadow:0 1px 10px rgba(0,0,0,.8)}
+.welcome b{font-weight:700;color:#fff;background:linear-gradient(90deg,#ff7a86,#fff 50%,#e3e7f2);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;text-shadow:none}
 .sub{text-align:center;color:var(--mute);font-size:14px;margin:-16px 0 32px}
 .divider{height:1px;max-width:520px;margin:56px auto 36px;background:linear-gradient(90deg,transparent,rgba(201,206,222,.35),transparent)}
 .tier{display:flex;flex-wrap:wrap;justify-content:center;gap:12px}
@@ -80,11 +80,11 @@ main{position:relative;max-width:880px;margin:0 auto;padding:0 max(5vw,16px) 80p
 .lore .epi{text-align:center;margin:0;color:var(--mute);font-size:15px}
 .lore blockquote{margin:30px auto;max-width:30ch;text-align:center;font-size:clamp(19px,3vw,24px);line-height:1.5;padding:22px 8px;border-block:1px solid var(--line);text-wrap:balance}
 .lore blockquote small{display:block;margin-top:8px;font-size:13px;color:var(--mute)}
-.prose{max-width:62ch;margin:0 auto;font-size:17px;line-height:1.9;text-align:justify;word-break:keep-all;overflow-wrap:break-word}.prose p{margin:0 0 1.1em}.prose p:last-child{margin:0}
+.prose{max-width:62ch;margin:0 auto;font-size:17px;line-height:1.9;text-align:left;word-break:keep-all;overflow-wrap:break-word}.prose p{margin:0 0 1.1em}.prose p:last-child{margin:0}
 .lore dl{display:grid;grid-template-columns:minmax(0,7em) minmax(0,1fr);gap:16px 24px;margin:0 auto;max-width:640px}
 .lore dt{font-weight:700;color:#e8dcb5}
 .lore dd{margin:0}
-@media(max-width:600px){.prose{max-width:62ch;margin:0 auto;font-size:17px;line-height:1.9;text-align:justify;word-break:keep-all;overflow-wrap:break-word}.prose p{margin:0 0 1.1em}.prose p:last-child{margin:0}
+@media(max-width:600px){.prose{max-width:62ch;margin:0 auto;font-size:17px;line-height:1.9;text-align:left;word-break:keep-all;overflow-wrap:break-word}.prose p{margin:0 0 1.1em}.prose p:last-child{margin:0}
 .lore dl{grid-template-columns:minmax(0,1fr);gap:4px}.lore dd{margin-bottom:14px}}
 .world-sub{text-align:center;font-size:clamp(26px,4vw,34px);line-height:1.1;margin:0 0 28px}
 .lands{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
@@ -141,6 +141,14 @@ main{z-index:1}
 @keyframes bloom{0%{transform:scale(1.06);filter:brightness(1.9) saturate(.6) blur(6px)}40%{filter:brightness(1.35) saturate(.85) blur(2px)}100%{transform:scale(1);filter:none}}
 @keyframes uiIn{from{opacity:0;transform:translateY(14px)}}
 @keyframes bob{50%{transform:translateY(5px)}}}
+@media(max-width:600px){
+  .prose,.land .desc,.rank-prose,.detail .lead,.land-detail .prose{text-align:left !important}
+  .prose{font-size:16px;line-height:1.8}
+  .welcome{margin-top:22px}
+  .detail .lead,.lore .epi,.land-detail .lsum{word-break:keep-all}
+  .lore{padding:24px 18px}
+  .detail{padding:20px 14px}
+}
 footer{text-align:center;color:var(--mute);font-size:13px;margin-top:64px}
 footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;margin-bottom:6px}
 @media(prefers-reduced-motion:no-preference){.detail:not([hidden]){animation:rise .45s ease}@keyframes rise{from{opacity:0;transform:translateY(10px)}}}
