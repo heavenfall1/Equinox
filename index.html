@@ -120,14 +120,13 @@ main{position:relative;max-width:880px;margin:0 auto;padding:0 max(5vw,16px) 80p
 @media(max-width:600px){.sin{flex-basis:calc(50% - 6px);min-width:0}}
 .sig{position:fixed;inset:0;z-index:30;background:#05070c;display:flex;align-items:center;justify-content:center;transition:opacity .9s ease,visibility .9s}
 .sig.done{opacity:0;visibility:hidden}
-.sig svg{width:min(82vw,600px);overflow:visible}
-.sig-t{font:128px "Pinyon Script",cursive;fill:#f4efe4;fill-opacity:0;stroke:#f4efe4;stroke-width:1.1;stroke-dasharray:4000;stroke-dashoffset:4000}
-.sig-u{fill:none;stroke:#d0283a;stroke-width:2;stroke-linecap:round;stroke-dasharray:400;stroke-dashoffset:400}
-.sig.go .sig-t{animation:write 2.1s cubic-bezier(.45,.05,.35,1) forwards,ink .9s 1.5s ease forwards}
-.sig.go .sig-u{animation:write .7s 1.9s ease-out forwards}
-.sig.go svg{filter:drop-shadow(0 0 10px rgba(255,240,220,.25))}
-@keyframes write{to{stroke-dashoffset:0}}
-@keyframes ink{to{fill-opacity:1;stroke-opacity:.4}}
+.sig-w{position:relative;width:min(78vw,560px)}
+.sig-w img{display:block;width:100%;height:auto;-webkit-mask-image:linear-gradient(100deg,#000 0%,#000 42%,transparent 58%,transparent 100%);mask-image:linear-gradient(100deg,#000 0%,#000 42%,transparent 58%,transparent 100%);-webkit-mask-size:260% 100%;mask-size:260% 100%;-webkit-mask-position:100% 0;mask-position:100% 0;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;filter:drop-shadow(0 0 14px rgba(230,190,110,.25))}
+.sig-glint{position:absolute;inset:0;pointer-events:none;background:linear-gradient(100deg,transparent 40%,rgba(255,244,214,.55) 50%,transparent 60%);background-size:260% 100%;background-position:100% 0;mix-blend-mode:screen;-webkit-mask:url(sig.png) center/100% 100% no-repeat;mask:url(sig.png) center/100% 100% no-repeat;opacity:0}
+.sig.go .sig-w img{animation:write 2.2s cubic-bezier(.45,.05,.35,1) forwards}
+.sig.go .sig-glint{animation:glint 1.2s 2.1s ease-in-out forwards}
+@keyframes write{to{-webkit-mask-position:0 0;mask-position:0 0}}
+@keyframes glint{0%{opacity:1;background-position:100% 0}100%{opacity:1;background-position:0 0}}
 .cover:not(.play),.cover:not(.play) *{animation-play-state:paused !important}
 @media(prefers-reduced-motion:reduce){.sig{display:none}}
 .cover{position:fixed;inset:0;z-index:0;background:#05070c;display:flex;align-items:center;justify-content:center;overflow:hidden;will-change:opacity}
@@ -183,7 +182,7 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
 </style>
 </head>
 <body>
-<div class="sig" id="sig" aria-hidden="true"><svg viewBox="0 0 640 220"><text class="sig-t" x="320" y="138" text-anchor="middle">Equinox</text><path class="sig-u" d="M168 170c90 14 200 10 310-6 22-3 40-2 52 4"/></svg></div>
+<div class="sig" id="sig" aria-hidden="true"><div class="sig-w"><img src="sig.png" alt=""><span class="sig-glint"></span></div></div>
 <div class="cover" id="cover" aria-hidden="true">
   <div class="cover-bg" style="background-image:url(cover3.jpg)"></div>
   <div class="cover-zoom">
@@ -361,9 +360,10 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
   else {
     let begun = false;
     const begin = () => { if(begun) return; begun = true; sig.classList.add("go");
-      setTimeout(() => { sig.classList.add("done"); startCover(); }, 3000); };
-    try { document.fonts.load('128px "Pinyon Script"').then(begin, begin); } catch(e){ begin(); }
-    setTimeout(begin, 1500);
+      setTimeout(() => { sig.classList.add("done"); startCover(); }, 3500); };
+    const si = sig.querySelector("img");
+    if(si.complete) begin(); else { si.addEventListener("load", begin); si.addEventListener("error", begin); }
+    setTimeout(begin, 1200);
   }
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   let ticking = false;
