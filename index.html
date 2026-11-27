@@ -491,7 +491,7 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
   // 배경음악 (유튜브)
   const BGM_ID = "XvnqRhT3I1c";
   const bgmBtn = document.getElementById("bgm");
-  let yt = null, ytReady = false, wantPlay = false, userOff = false;
+  let yt = null, ytReady = false, wantPlay = true, userOff = false, mutedStart = false;
   const setBtn = on => { bgmBtn.setAttribute("aria-pressed", String(on)); bgmBtn.setAttribute("aria-label", on ? "배경음악 끄기" : "배경음악 켜기"); };
   const loadYT = () => {
     if(window.YT && YT.Player){ makePlayer(); return; }
@@ -505,17 +505,23 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
     yt = new YT.Player("ytPlayer", { width: 1, height: 1, videoId: BGM_ID,
       playerVars: { autoplay: 0, controls: 0, loop: 1, playlist: BGM_ID, playsinline: 1, rel: 0 },
       events: {
-        onReady: () => { ytReady = true; try { yt.setVolume(45); } catch(e){} if(wantPlay) yt.playVideo(); },
+        onReady: () => { ytReady = true; try { yt.setVolume(50); yt.unMute(); } catch(e){}
+          if(!wantPlay) return;
+          yt.playVideo();
+          // 소리 있는 자동 재생이 막히면, 소리 끈 채로 먼저 틀고 첫 터치 때 소리를 켜요
+          setTimeout(() => { if(wantPlay && yt.getPlayerState() !== 1){ mutedStart = true; yt.mute(); yt.playVideo(); } }, 900);
+        },
         onStateChange: e => { if(e.data === 1) setBtn(true); else if(e.data === 2) setBtn(false); else if(e.data === 0){ yt.seekTo(0); yt.playVideo(); } },
         onError: () => setBtn(false)
       } });
   };
   window.onYouTubeIframeAPIReady = makePlayer;
-  const play = () => { wantPlay = true; setBtn(true); if(ytReady) yt.playVideo(); else loadYT(); };
+  const play = () => { wantPlay = true; setBtn(true); if(ytReady){ yt.unMute(); yt.setVolume(50); mutedStart = false; yt.playVideo(); } else loadYT(); };
   const stop = () => { wantPlay = false; setBtn(false); if(ytReady) yt.pauseVideo(); };
   bgmBtn.addEventListener("click", e => { e.stopPropagation(); if(bgmBtn.getAttribute("aria-pressed") === "true"){ userOff = true; stop(); } else { userOff = false; play(); } });
   // 첫 터치·클릭 때 자동으로 시작 (브라우저가 그 전 자동 재생은 막아요)
-  const firstTouch = e => { removeEventListener("pointerdown", firstTouch, true); removeEventListener("keydown", firstTouch, true); if(!userOff && !e.target.closest("#bgm")) play(); };
+  const firstTouch = e => { removeEventListener("pointerdown", firstTouch, true); removeEventListener("keydown", firstTouch, true); removeEventListener("touchend", firstTouch, true); if(!userOff && !e.target.closest("#bgm")) play(); };
+  addEventListener("touchend", firstTouch, true);
   addEventListener("pointerdown", firstTouch, true);
   addEventListener("keydown", firstTouch, true);
   loadYT();
