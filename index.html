@@ -118,12 +118,12 @@ main{position:relative;max-width:880px;margin:0 auto;padding:0 max(5vw,16px) 80p
 .sin small{font-size:13px;color:var(--mute)}
 .sin .no{font:26px/1 "Pinyon Script",cursive;color:#b08ad0;opacity:.8}
 @media(max-width:600px){.sin{flex-basis:calc(50% - 6px);min-width:0}}
-.sig{position:fixed;inset:0;z-index:30;background:#05070c;display:flex;align-items:center;justify-content:center;transition:opacity .9s ease,visibility .9s}
-.sig.done{opacity:0;visibility:hidden}
+.signin{position:fixed;inset:0;z-index:30;background:#05070c;display:flex;align-items:center;justify-content:center;transition:opacity .9s ease,visibility .9s}
+.signin.done{opacity:0;visibility:hidden}
 .sig-w{position:relative;width:min(78vw,560px)}
 .sig-w canvas{display:block;width:100%;height:auto;filter:drop-shadow(0 0 14px rgba(230,190,110,.28))}
 .cover:not(.play),.cover:not(.play) *{animation-play-state:paused !important}
-@media(prefers-reduced-motion:reduce){.sig{display:none}}
+@media(prefers-reduced-motion:reduce){.signin{display:none}}
 .cover{position:fixed;inset:0;z-index:0;background:#05070c;display:flex;align-items:center;justify-content:center;overflow:hidden;will-change:opacity}
 .cover-space{height:92vh;height:92svh}
 main{z-index:1}
@@ -177,7 +177,7 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
 </style>
 </head>
 <body>
-<div class="sig" id="sig" aria-hidden="true"><div class="sig-w"><canvas id="sigCv"></canvas></div></div>
+<div class="signin" id="sig" aria-hidden="true"><div class="sig-w"><canvas id="sigCv"></canvas></div></div>
 <div class="cover" id="cover" aria-hidden="true">
   <div class="cover-bg" style="background-image:url(cover3.jpg)"></div>
   <div class="cover-zoom">
