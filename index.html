@@ -118,6 +118,18 @@ main{position:relative;max-width:880px;margin:0 auto;padding:0 max(5vw,16px) 80p
 .sin small{font-size:13px;color:var(--mute)}
 .sin .no{font:26px/1 "Pinyon Script",cursive;color:#b08ad0;opacity:.8}
 @media(max-width:600px){.sin{flex-basis:calc(50% - 6px);min-width:0}}
+.sig{position:fixed;inset:0;z-index:30;background:#05070c;display:flex;align-items:center;justify-content:center;transition:opacity .9s ease,visibility .9s}
+.sig.done{opacity:0;visibility:hidden}
+.sig svg{width:min(82vw,600px);overflow:visible}
+.sig-t{font:128px "Pinyon Script",cursive;fill:#f4efe4;fill-opacity:0;stroke:#f4efe4;stroke-width:1.1;stroke-dasharray:4000;stroke-dashoffset:4000}
+.sig-u{fill:none;stroke:#d0283a;stroke-width:2;stroke-linecap:round;stroke-dasharray:400;stroke-dashoffset:400}
+.sig.go .sig-t{animation:write 2.1s cubic-bezier(.45,.05,.35,1) forwards,ink .9s 1.5s ease forwards}
+.sig.go .sig-u{animation:write .7s 1.9s ease-out forwards}
+.sig.go svg{filter:drop-shadow(0 0 10px rgba(255,240,220,.25))}
+@keyframes write{to{stroke-dashoffset:0}}
+@keyframes ink{to{fill-opacity:1;stroke-opacity:.4}}
+.cover:not(.play),.cover:not(.play) *{animation-play-state:paused !important}
+@media(prefers-reduced-motion:reduce){.sig{display:none}}
 .cover{position:fixed;inset:0;z-index:0;background:#05070c;display:flex;align-items:center;justify-content:center;overflow:hidden;will-change:opacity}
 .cover-space{height:92vh;height:92svh}
 main{z-index:1}
@@ -171,6 +183,7 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
 </style>
 </head>
 <body>
+<div class="sig" id="sig" aria-hidden="true"><svg viewBox="0 0 640 220"><text class="sig-t" x="320" y="138" text-anchor="middle">Equinox</text><path class="sig-u" d="M168 170c90 14 200 10 310-6 22-3 40-2 52 4"/></svg></div>
 <div class="cover" id="cover" aria-hidden="true">
   <div class="cover-bg" style="background-image:url(cover3.jpg)"></div>
   <div class="cover-zoom">
@@ -342,6 +355,16 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
   document.getElementById("sins").innerHTML = SINS.map(t => `<div class="sin"><span class="sin-t">${esc(t)}의 집행관</span><b>미공개</b><small>베일에 싸인 자리</small></div>`).join("");
 
   const cover = document.getElementById("cover"), coverImg = cover.querySelector(".cover-img");
+  const sig = document.getElementById("sig");
+  const startCover = () => cover.classList.add("play");
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches){ startCover(); }
+  else {
+    let begun = false;
+    const begin = () => { if(begun) return; begun = true; sig.classList.add("go");
+      setTimeout(() => { sig.classList.add("done"); startCover(); }, 3000); };
+    try { document.fonts.load('128px "Pinyon Script"').then(begin, begin); } catch(e){ begin(); }
+    setTimeout(begin, 1500);
+  }
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   let ticking = false;
   const mainEl = document.querySelector("main"), ui = cover.querySelector(".cover-ui");
