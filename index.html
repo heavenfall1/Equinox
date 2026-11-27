@@ -74,7 +74,7 @@ main{position:relative;max-width:880px;margin:0 auto;padding:0 max(5vw,16px) 80p
 .world-h{text-align:center;font-size:clamp(26px,4vw,34px);line-height:1.1;margin:0 0 28px}
 .lore{position:relative;border:1px solid var(--line);border-radius:6px;padding:clamp(24px,5vw,48px) clamp(20px,5vw,44px);background:radial-gradient(80% 60% at 50% 0%,rgba(228,201,255,.08),transparent 70%),linear-gradient(180deg,#13111a,#0c0b10);overflow:hidden}
 .lore+.lore{margin-top:20px}
-.lore .tree{display:block;width:54px;height:54px;margin:0 auto 14px;color:#e8dcb5}
+.lore .tree{display:block;width:64px;height:64px;margin:0 auto 14px;color:#e8dcb5}
 .lore .kicker{text-align:center;margin:0;font-size:14px;color:var(--day)}
 .lore h3{text-align:center;margin:6px 0 4px;font-size:clamp(28px,4.4vw,38px);line-height:1.1}
 .lore .epi{text-align:center;margin:0;color:var(--mute);font-size:15px}
@@ -319,7 +319,7 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
         "루타비스는 미지의 공간인 세계수에 존재한다고 전해지지만, 만나는 방법은 지금까지 알려지지 않았다."
       ]}
   ];
-  const TREE = '<svg class="tree" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="22" fill="none" stroke="currentColor" stroke-width=".8" opacity=".5"/><path d="M24 40V22M24 30l-7-6M24 27l7-7M24 24l-4-8M24 23l5-9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M24 40c-4 0-7 1.5-9 3M24 40c4 0 7 1.5 9 3M24 40v4" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><g fill="currentColor"><circle cx="17" cy="24" r="2.2"/><circle cx="31" cy="20" r="2.4"/><circle cx="20" cy="16" r="2"/><circle cx="29" cy="14" r="2.2"/><circle cx="24" cy="11" r="2.6"/></g></svg>';
+  const TREE = '<svg class="tree" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="30" fill="none" stroke="currentColor" stroke-width=".8" opacity=".45"/><path d="M32 9c-5 0-8.6 2.6-10 6.2-4.4.2-7.8 3.6-7.8 8 0 1.5.4 2.9 1.1 4.1-2 1.5-3.3 3.8-3.3 6.5 0 4.5 3.6 8.1 8.1 8.1 1.2 0 2.3-.2 3.3-.7 1.8 1.5 4.2 2.4 6.8 2.4h3.6c2.6 0 5-.9 6.8-2.4 1 .5 2.1.7 3.3.7 4.5 0 8.1-3.6 8.1-8.1 0-2.7-1.3-5-3.3-6.5.7-1.2 1.1-2.6 1.1-4.1 0-4.4-3.4-7.8-7.8-8C40.6 11.6 37 9 32 9z" fill="currentColor" fill-opacity=".16" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M32 50V22M32 36l-9-7M23 29l-5 1M23 29l-2-5M32 32l8-8M40 24l5 0M40 24l1-5M32 27l-4-6M32 25l3-7"/><path d="M32 50c-2 1.6-5.5 2.8-10 3.2M32 50c2 1.6 5.5 2.8 10 3.2M32 50c-1 2.4-2.6 4.2-5 5.6M32 50c1 2.4 2.6 4.2 5 5.6M32 50v6.5"/></g><path d="M30.4 50h3.2l-.4-13h-2.4z" fill="currentColor"/><g fill="currentColor"><circle cx="18" cy="30" r="1.6"/><circle cx="21" cy="24" r="1.4"/><circle cx="45" cy="24" r="1.6"/><circle cx="41" cy="19" r="1.4"/><circle cx="28" cy="21" r="1.3"/><circle cx="35" cy="18" r="1.5"/><circle cx="32" cy="14" r="1.8"/></g></svg>';
   document.getElementById("lore").innerHTML = LORE.map(l => `<article class="lore">${TREE}<p class="kicker">${esc(l.kicker)}</p><h3>${esc(l.name)}</h3><p class="epi">${esc(l.epi)}</p>
     ${l.truth ? `<blockquote>“${esc(l.truth)}”<small>${esc(l.truthNote || "")}</small></blockquote>` : ""}
     <div class="prose">${l.body.map(t => `<p>${esc(t)}</p>`).join("")}</div></article>`).join("");
