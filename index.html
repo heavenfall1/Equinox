@@ -181,6 +181,8 @@ img,canvas,.cover-bg{-webkit-user-drag:none;user-drag:none;-webkit-touch-callout
 .bgm .bars{gap:3px;align-items:flex-end;height:18px}
 .bgm .bars i{width:3px;height:6px;background:currentColor;border-radius:2px}
 @media(prefers-reduced-motion:no-preference){.bgm .bars i{animation:eq 1s ease-in-out infinite}.bgm .bars i:nth-child(2){animation-delay:.2s}.bgm .bars i:nth-child(3){animation-delay:.4s}@keyframes eq{50%{height:18px}}}
+.tapnote{position:fixed;top:max(14px,env(safe-area-inset-top));left:50%;transform:translateX(-50%);z-index:31;margin:0;padding:7px 16px;border-radius:999px;background:rgba(10,9,14,.6);border:1px solid rgba(232,220,181,.3);color:#e8dcb5;font-size:13px;white-space:nowrap;pointer-events:none;backdrop-filter:blur(4px);transition:opacity .6s ease}
+.tapnote.hide{opacity:0}
 .ytbox{position:fixed;left:-9999px;top:0;width:1px;height:1px;overflow:hidden;pointer-events:none}
 footer{text-align:center;color:var(--mute);font-size:13px;margin-top:64px}
 footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;margin-bottom:6px}
@@ -192,6 +194,7 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
 </head>
 <body>
 <button class="bgm" id="bgm" type="button" aria-label="배경음악 켜기" aria-pressed="false"><svg class="on" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="currentColor"/><path d="M15.5 8.8a4.5 4.5 0 0 1 0 6.4M18 6.3a8 8 0 0 1 0 11.4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><svg class="off" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="currentColor"/><path d="M16 9.5l5 5M21 9.5l-5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span class="bars" aria-hidden="true"><i></i><i></i><i></i></span></button>
+<p class="tapnote" id="tapnote">화면을 터치하면 음악이 나옵니다</p>
 <div class="ytbox" aria-hidden="true"><div id="ytPlayer"></div></div>
 <div class="signin" id="sig" aria-hidden="true"><div class="sig-w"><canvas id="sigCv"></canvas></div></div>
 <div class="cover" id="cover" aria-hidden="true">
@@ -513,7 +516,7 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
           // 소리 있는 자동 재생이 막히면, 소리 끈 채로 먼저 틀고 첫 터치 때 소리를 켜요
           setTimeout(() => { if(wantPlay && yt.getPlayerState() !== 1){ mutedStart = true; yt.mute(); yt.playVideo(); } }, 400);
         },
-        onStateChange: e => { if(e.data === 1) setBtn(true); else if(e.data === 2) setBtn(false); else if(e.data === 0){ yt.seekTo(0); yt.playVideo(); } },
+        onStateChange: e => { if(e.data === 1){ setBtn(true); try { if(!yt.isMuted()) hideNote(); } catch(_){} } else if(e.data === 2) setBtn(false); else if(e.data === 0){ yt.seekTo(0); yt.playVideo(); } },
         onError: () => setBtn(false)
       } });
   };
@@ -523,7 +526,9 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
   const stop = () => { wantPlay = false; setBtn(false); if(ytReady) yt.pauseVideo(); };
   bgmBtn.addEventListener("click", e => { e.stopPropagation(); if(bgmBtn.getAttribute("aria-pressed") === "true"){ userOff = true; stop(); } else { userOff = false; play(); } });
   // 첫 터치·클릭 때 자동으로 시작 (브라우저가 그 전 자동 재생은 막아요)
-  const firstTouch = e => { removeEventListener("pointerdown", firstTouch, true); removeEventListener("keydown", firstTouch, true); removeEventListener("touchend", firstTouch, true); if(!userOff && !e.target.closest("#bgm")) play(); };
+  const tapnote = document.getElementById("tapnote");
+  const hideNote = () => tapnote.classList.add("hide");
+  const firstTouch = e => { hideNote(); removeEventListener("pointerdown", firstTouch, true); removeEventListener("keydown", firstTouch, true); removeEventListener("touchend", firstTouch, true); if(!userOff && !e.target.closest("#bgm")) play(); };
   addEventListener("touchend", firstTouch, true);
   addEventListener("pointerdown", firstTouch, true);
   addEventListener("keydown", firstTouch, true);
