@@ -171,6 +171,17 @@ a.plot{cursor:pointer}
 .plot .tags{margin:0;font-size:14px;color:#8d8b96;white-space:nowrap;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,#000 85%,transparent);mask-image:linear-gradient(90deg,#000 85%,transparent)}
 @media(max-width:720px){.plots{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.plot h3{font-size:15px}.plot .pdesc,.plot .tags{font-size:13px}.plot .pbody{padding:10px 11px 12px}}
 img,canvas,.cover-bg{-webkit-user-drag:none;user-drag:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
+.bgm{position:fixed;right:max(16px,env(safe-area-inset-right));bottom:max(16px,env(safe-area-inset-bottom));z-index:25;width:48px;height:48px;border-radius:50%;border:1px solid rgba(232,220,181,.45);background:rgba(10,9,14,.72);color:#e8dcb5;display:flex;align-items:center;justify-content:center;cursor:pointer;backdrop-filter:blur(6px);box-shadow:0 6px 20px rgba(0,0,0,.5);transition:border-color .25s,transform .25s}
+.bgm:hover{transform:scale(1.06);border-color:#e8dcb5}
+.bgm:focus-visible{outline:2px solid #e8dcb5;outline-offset:3px}
+.bgm svg{width:22px;height:22px}
+.bgm .on,.bgm .bars{display:none}
+.bgm[aria-pressed=true] .off{display:none}
+.bgm[aria-pressed=true] .bars{display:flex}
+.bgm .bars{gap:3px;align-items:flex-end;height:18px}
+.bgm .bars i{width:3px;height:6px;background:currentColor;border-radius:2px}
+@media(prefers-reduced-motion:no-preference){.bgm .bars i{animation:eq 1s ease-in-out infinite}.bgm .bars i:nth-child(2){animation-delay:.2s}.bgm .bars i:nth-child(3){animation-delay:.4s}@keyframes eq{50%{height:18px}}}
+.ytbox{position:fixed;left:-9999px;top:0;width:1px;height:1px;overflow:hidden;pointer-events:none}
 footer{text-align:center;color:var(--mute);font-size:13px;margin-top:64px}
 footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;margin-bottom:6px}
 @media(prefers-reduced-motion:no-preference){.detail:not([hidden]){animation:rise .45s ease}@keyframes rise{from{opacity:0;transform:translateY(10px)}}}
@@ -178,6 +189,8 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
 </style>
 </head>
 <body>
+<button class="bgm" id="bgm" type="button" aria-label="배경음악 켜기" aria-pressed="false"><svg class="on" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="currentColor"/><path d="M15.5 8.8a4.5 4.5 0 0 1 0 6.4M18 6.3a8 8 0 0 1 0 11.4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><svg class="off" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="currentColor"/><path d="M16 9.5l5 5M21 9.5l-5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span class="bars" aria-hidden="true"><i></i><i></i><i></i></span></button>
+<div class="ytbox" aria-hidden="true"><div id="ytPlayer"></div></div>
 <div class="signin" id="sig" aria-hidden="true"><div class="sig-w"><canvas id="sigCv"></canvas></div></div>
 <div class="cover" id="cover" aria-hidden="true">
   <div class="cover-bg" style="background-image:url(cover4.jpg)"></div>
@@ -474,6 +487,38 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
   if(nav && nav.type === "reload" && location.hash){ history.replaceState(null, "", location.pathname + location.search); }
   scrollTo(0, 0);
   addEventListener("pageshow", e => { if(e.persisted) scrollTo(0, 0); });
+
+  // 배경음악 (유튜브)
+  const BGM_ID = "XvnqRhT3I1c";
+  const bgmBtn = document.getElementById("bgm");
+  let yt = null, ytReady = false, wantPlay = false, userOff = false;
+  const setBtn = on => { bgmBtn.setAttribute("aria-pressed", String(on)); bgmBtn.setAttribute("aria-label", on ? "배경음악 끄기" : "배경음악 켜기"); };
+  const loadYT = () => {
+    if(window.YT && YT.Player){ makePlayer(); return; }
+    if(document.getElementById("ytApi")) return;
+    const sc = document.createElement("script"); sc.id = "ytApi"; sc.src = "https://www.youtube.com/iframe_api";
+    sc.onerror = () => setBtn(false);
+    document.head.appendChild(sc);
+  };
+  const makePlayer = () => {
+    if(yt) return;
+    yt = new YT.Player("ytPlayer", { width: 1, height: 1, videoId: BGM_ID,
+      playerVars: { autoplay: 0, controls: 0, loop: 1, playlist: BGM_ID, playsinline: 1, rel: 0 },
+      events: {
+        onReady: () => { ytReady = true; try { yt.setVolume(45); } catch(e){} if(wantPlay) yt.playVideo(); },
+        onStateChange: e => { if(e.data === 1) setBtn(true); else if(e.data === 2) setBtn(false); else if(e.data === 0){ yt.seekTo(0); yt.playVideo(); } },
+        onError: () => setBtn(false)
+      } });
+  };
+  window.onYouTubeIframeAPIReady = makePlayer;
+  const play = () => { wantPlay = true; setBtn(true); if(ytReady) yt.playVideo(); else loadYT(); };
+  const stop = () => { wantPlay = false; setBtn(false); if(ytReady) yt.pauseVideo(); };
+  bgmBtn.addEventListener("click", e => { e.stopPropagation(); if(bgmBtn.getAttribute("aria-pressed") === "true"){ userOff = true; stop(); } else { userOff = false; play(); } });
+  // 첫 터치·클릭 때 자동으로 시작 (브라우저가 그 전 자동 재생은 막아요)
+  const firstTouch = e => { removeEventListener("pointerdown", firstTouch, true); removeEventListener("keydown", firstTouch, true); if(!userOff && !e.target.closest("#bgm")) play(); };
+  addEventListener("pointerdown", firstTouch, true);
+  addEventListener("keydown", firstTouch, true);
+  loadYT();
 
   const fromHash = () => { show(location.hash.slice(1) || null); if(!detail.hidden) requestAnimationFrame(() => detail.scrollIntoView({behavior:"smooth", block:"start"})); };
   addEventListener("hashchange", fromHash);
