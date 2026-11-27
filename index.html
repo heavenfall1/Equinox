@@ -194,7 +194,7 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
 </head>
 <body>
 <button class="bgm" id="bgm" type="button" aria-label="배경음악 켜기" aria-pressed="false"><svg class="on" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="currentColor"/><path d="M15.5 8.8a4.5 4.5 0 0 1 0 6.4M18 6.3a8 8 0 0 1 0 11.4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><svg class="off" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="currentColor"/><path d="M16 9.5l5 5M21 9.5l-5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span class="bars" aria-hidden="true"><i></i><i></i><i></i></span></button>
-<p class="tapnote" id="tapnote">화면을 터치하면 음악이 나옵니다</p>
+<p class="tapnote" id="tapnote">화면을 터치하면 노래가 시작됩니다</p>
 <div class="ytbox" aria-hidden="true"><div id="ytPlayer"></div></div>
 <div class="signin" id="sig" aria-hidden="true"><div class="sig-w"><canvas id="sigCv"></canvas></div></div>
 <div class="cover" id="cover" aria-hidden="true">
@@ -522,7 +522,7 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
   };
   window.onYouTubeIframeAPIReady = makePlayer;
   if(window.YT && YT.Player) makePlayer();
-  const play = () => { wantPlay = true; setBtn(true); if(ytReady){ yt.unMute(); yt.setVolume(50); mutedStart = false; yt.playVideo(); } else loadYT(); };
+  const play = () => { wantPlay = true; setBtn(true); if(ytReady){ if(mutedStart){ yt.seekTo(0, true); } yt.unMute(); yt.setVolume(50); mutedStart = false; yt.playVideo(); } else loadYT(); };
   const stop = () => { wantPlay = false; setBtn(false); if(ytReady) yt.pauseVideo(); };
   bgmBtn.addEventListener("click", e => { e.stopPropagation(); if(bgmBtn.getAttribute("aria-pressed") === "true"){ userOff = true; stop(); } else { userOff = false; play(); } });
   // 첫 터치·클릭 때 자동으로 시작 (브라우저가 그 전 자동 재생은 막아요)
