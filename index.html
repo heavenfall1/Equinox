@@ -187,6 +187,8 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
 @media(prefers-reduced-motion:no-preference){.detail:not([hidden]){animation:rise .45s ease}@keyframes rise{from{opacity:0;transform:translateY(10px)}}}
 @media(max-width:600px){.tier{gap:10px}.rank{flex-basis:calc(50% - 5px);max-width:none}.rank.top{flex-basis:100%}}
 </style>
+<link rel="preconnect" href="https://www.youtube.com"><link rel="preconnect" href="https://i.ytimg.com">
+<script src="https://www.youtube.com/iframe_api" id="ytApi" async></script>
 </head>
 <body>
 <button class="bgm" id="bgm" type="button" aria-label="배경음악 켜기" aria-pressed="false"><svg class="on" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="currentColor"/><path d="M15.5 8.8a4.5 4.5 0 0 1 0 6.4M18 6.3a8 8 0 0 1 0 11.4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><svg class="off" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="currentColor"/><path d="M16 9.5l5 5M21 9.5l-5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span class="bars" aria-hidden="true"><i></i><i></i><i></i></span></button>
@@ -495,7 +497,7 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
   const setBtn = on => { bgmBtn.setAttribute("aria-pressed", String(on)); bgmBtn.setAttribute("aria-label", on ? "배경음악 끄기" : "배경음악 켜기"); };
   const loadYT = () => {
     if(window.YT && YT.Player){ makePlayer(); return; }
-    if(document.getElementById("ytApi")) return;
+    if(document.getElementById("ytApi")){ return; }
     const sc = document.createElement("script"); sc.id = "ytApi"; sc.src = "https://www.youtube.com/iframe_api";
     sc.onerror = () => setBtn(false);
     document.head.appendChild(sc);
@@ -503,19 +505,20 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
   const makePlayer = () => {
     if(yt) return;
     yt = new YT.Player("ytPlayer", { width: 1, height: 1, videoId: BGM_ID,
-      playerVars: { autoplay: 0, controls: 0, loop: 1, playlist: BGM_ID, playsinline: 1, rel: 0 },
+      playerVars: { autoplay: 1, mute: 0, controls: 0, loop: 1, playlist: BGM_ID, playsinline: 1, rel: 0 },
       events: {
         onReady: () => { ytReady = true; try { yt.setVolume(50); yt.unMute(); } catch(e){}
           if(!wantPlay) return;
           yt.playVideo();
           // 소리 있는 자동 재생이 막히면, 소리 끈 채로 먼저 틀고 첫 터치 때 소리를 켜요
-          setTimeout(() => { if(wantPlay && yt.getPlayerState() !== 1){ mutedStart = true; yt.mute(); yt.playVideo(); } }, 900);
+          setTimeout(() => { if(wantPlay && yt.getPlayerState() !== 1){ mutedStart = true; yt.mute(); yt.playVideo(); } }, 400);
         },
         onStateChange: e => { if(e.data === 1) setBtn(true); else if(e.data === 2) setBtn(false); else if(e.data === 0){ yt.seekTo(0); yt.playVideo(); } },
         onError: () => setBtn(false)
       } });
   };
   window.onYouTubeIframeAPIReady = makePlayer;
+  if(window.YT && YT.Player) makePlayer();
   const play = () => { wantPlay = true; setBtn(true); if(ytReady){ yt.unMute(); yt.setVolume(50); mutedStart = false; yt.playVideo(); } else loadYT(); };
   const stop = () => { wantPlay = false; setBtn(false); if(ytReady) yt.pauseVideo(); };
   bgmBtn.addEventListener("click", e => { e.stopPropagation(); if(bgmBtn.getAttribute("aria-pressed") === "true"){ userOff = true; stop(); } else { userOff = false; play(); } });
