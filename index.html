@@ -147,6 +147,13 @@ main{position:relative;max-width:880px;margin:0 auto;padding:0 max(5vw,16px) 80p
 @media(max-width:600px){.sin{flex-basis:calc(50% - 6px);min-width:0}}
 .signin{position:fixed;inset:0;z-index:30;background:#05070c;display:flex;align-items:center;justify-content:center;transition:opacity .9s ease,visibility .9s}
 .signin.done{opacity:0;visibility:hidden}
+.signin{flex-direction:column;gap:clamp(28px,6vh,56px);cursor:pointer;-webkit-tap-highlight-color:transparent}
+.signin:focus{outline:none}
+.sig-hint{margin:0;font-size:15px;letter-spacing:.04em;color:#e8dcb5;opacity:0;transition:opacity .8s ease}
+.signin.ready .sig-hint{opacity:1}
+@media(prefers-reduced-motion:no-preference){.signin.ready .sig-hint{animation:hintPulse 2.2s 1s ease-in-out infinite}@keyframes hintPulse{50%{opacity:.4}}}
+html.sig-lock,html.sig-lock body{overflow:hidden}
+html.sig-lock .tapnote{opacity:0}
 .sig-w{position:relative;width:min(78vw,560px)}
 .sig-w canvas{display:block;width:100%;height:auto;filter:drop-shadow(0 0 14px rgba(230,190,110,.28))}
 .cover:not(.play),.cover:not(.play) *{animation-play-state:paused !important}
@@ -234,7 +241,7 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
 <div class="lb" id="lb" hidden role="dialog" aria-modal="true" aria-labelledby="lbName"><div class="lb-box"><button class="lb-x" id="lbX" type="button" aria-label="닫기">×</button><div class="lb-pic"><img id="lbImg" alt=""></div><div class="lb-txt"><p class="lb-pos" id="lbPos"></p><h3 id="lbName"></h3><p class="lb-epi" id="lbEpi"></p><div class="lb-bio" id="lbBio"></div></div></div></div>
 <p class="tapnote" id="tapnote">화면을 터치하면 노래가 시작됩니다</p>
 <audio id="bgmAudio" src="bgm.mp3" loop preload="auto" playsinline></audio>
-<div class="signin" id="sig" aria-hidden="true"><div class="sig-w"><canvas id="sigCv"></canvas></div></div>
+<div class="signin" id="sig" role="button" tabindex="0" aria-label="화면을 터치하면 입장합니다"><div class="sig-w"><canvas id="sigCv"></canvas></div><p class="sig-hint">화면을 터치하세요</p></div>
 <div class="cover" id="cover" aria-hidden="true">
   <div class="cover-bg" style="background-image:url(cover4.jpg)"></div>
   <div class="cover-zoom">
@@ -669,6 +676,9 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
   const cover = document.getElementById("cover"), coverImg = cover.querySelector(".cover-img");
   const sig = document.getElementById("sig");
   const startCover = () => cover.classList.add("play");
+  // 서명이 다 써지면 '화면을 터치하세요'를 띄우고, 터치하면 음악과 함께 표지로 넘어가요
+  const enterSite = () => { if(sig.classList.contains("done")) return; sig.classList.add("done"); document.documentElement.classList.remove("sig-lock"); startCover(); };
+  const sigReady = () => sig.classList.add("ready");
   if(matchMedia("(prefers-reduced-motion: reduce)").matches){ startCover(); }
   else {
     let begun = false;
@@ -694,9 +704,10 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
       else { cx.globalCompositeOperation = "source-over"; cx.clearRect(0, 0, SIG_W, SIG_H); cx.drawImage(src, 0, 0, SIG_W, SIG_H); }
     };
     const begin = () => { if(begun) return; begun = true; sig.classList.add("go"); requestAnimationFrame(frame);
-      setTimeout(() => { sig.classList.add("done"); startCover(); }, DUR + 900); };
-    if(src.complete) begin(); else { src.addEventListener("load", begin); src.addEventListener("error", () => { sig.classList.add("done"); startCover(); }); }
-    setTimeout(() => { if(!begun){ sig.classList.add("done"); startCover(); } }, 3000);
+      setTimeout(sigReady, DUR + 300); };
+    document.documentElement.classList.add("sig-lock");
+    if(src.complete) begin(); else { src.addEventListener("load", begin); src.addEventListener("error", sigReady); }
+    setTimeout(() => { if(!begun) sigReady(); }, 3000);
   }
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   let ticking = false;
@@ -842,7 +853,8 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
     play();
   };
   ["click","touchend","keydown"].forEach(t => addEventListener(t, tryStart, true));
-  play();
+  const sigTap = e => { if(sig.classList.contains("done")) return; if(e.type === "keydown" && !["Enter"," ","Spacebar"].includes(e.key)) return; e.preventDefault(); if(!userOff) play(); enterSite(); };
+  sig.addEventListener("click", sigTap); sig.addEventListener("touchend", sigTap, {passive:false}); sig.addEventListener("keydown", sigTap);
 
   // 별 배경
   {
