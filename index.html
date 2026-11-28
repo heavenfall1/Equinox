@@ -356,6 +356,12 @@ button.sin:hover::before,button.sin:focus-visible::before,button.sin:active::bef
 .realm-box .realm-head{margin-top:0;border:0}
 .realm-box .realm-head::before{display:none}
 @media(max-width:600px){.realm-box{margin-left:-6px;margin-right:-6px;padding-left:10px;padding-right:10px}}
+.sin.sin-lead{border-color:rgba(214,220,232,.75) !important;background:radial-gradient(70% 55% at 50% 35%,rgba(214,220,232,.14),transparent 70%),#0e0e12 !important;box-shadow:0 0 24px rgba(214,220,232,.16) !important}
+.sin.sin-lead .sin-t{color:#dfe4ee !important}
+.sin.sin-lead .lead-note{color:#c3c9d6 !important}
+.sin.sin-lead .lead-more{border-color:rgba(214,220,232,.5);color:#e3e8f1}
+button.sin.sin-lead::before{background:conic-gradient(from var(--ga),rgba(214,220,232,.15),#eef1f7 12%,#fff 16%,#b9c2d2 22%,rgba(214,220,232,.15) 40%,rgba(214,220,232,.15) 60%,#b9c2d2 72%,#fff 78%,#eef1f7 84%,rgba(214,220,232,.15))}
+button.sin.sin-lead:hover,button.sin.sin-lead:focus-visible,button.sin.sin-lead:active{box-shadow:0 0 0 1px rgba(214,220,232,.4),0 0 26px rgba(214,220,232,.3) !important}
 footer{text-align:center;color:var(--mute);font-size:13px;margin-top:64px}
 footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;margin-bottom:6px}
 @media(prefers-reduced-motion:no-preference){.detail:not([hidden]){animation:rise .45s ease}@keyframes rise{from{opacity:0;transform:translateY(10px)}}}
