@@ -306,6 +306,11 @@ img,canvas,.cover-bg{-webkit-user-drag:none;user-drag:none;-webkit-touch-callout
 @media(max-width:600px){.tab{font-size:15px;flex-basis:120px}.tabs{gap:2px}}
 .card{text-align:center}
 .card .pos,.card h3,.card .title,.lb h3,.lb-pos,.lb-epi{text-align:center}
+/* 스크롤하면 서서히 나타나기 */
+@media(prefers-reduced-motion:no-preference){
+  .rv{opacity:0;translate:0 28px;transition:opacity .9s ease,translate .9s cubic-bezier(.2,.7,.2,1);transition-delay:var(--rd,0s)}
+  .rv.in{opacity:1;translate:0 0}
+}
 footer{text-align:center;color:var(--mute);font-size:13px;margin-top:64px}
 footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;margin-bottom:6px}
 @media(prefers-reduced-motion:no-preference){.detail:not([hidden]){animation:rise .45s ease}@keyframes rise{from{opacity:0;transform:translateY(10px)}}}
@@ -992,6 +997,20 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
   // 강조 문장: 화면에 보이면 금빛이 슥 지나가요
   { const k = document.querySelector(".pro-key");
     if(k){ if("IntersectionObserver" in window){ const io = new IntersectionObserver(es => es.forEach(e => k.classList.toggle("shine", e.isIntersecting)), {threshold:.4}); io.observe(k); } else k.classList.add("shine"); } }
+
+  // ▼ 스크롤하면 서서히 나타나기: 화면에 들어오는 순간 아래에서 부드럽게 떠올라요
+  {
+    const SEL = [".welcome", ".welcome-sub", ".welcome-vline", ".split-line", ".pro-title", ".pro-txt", ".pro-key",
+      ".divider", ".world-h", ".world-sub", ".sub", ".lore", ".lore-fig", ".land", ".detail > .ico", ".detail > .region", ".detail > h2", ".detail > .han",
+      ".detail > .lead", ".rank-prose", ".cards .card", ".sins-desc", ".sin", ".chips", ".rg-h", ".rcard", ".plot", "footer"].join(",");
+    const els = [...document.querySelectorAll(SEL)].filter(el => !el.closest(".cover, .signin, .lb"));
+    const sibIndex = el => { const p = el.parentElement; if(!p) return 0; const kids = [...p.children].filter(k => k.matches(SEL)); return Math.max(0, kids.indexOf(el)); };
+    els.forEach(el => { el.classList.add("rv"); const grid = el.matches(".card, .rcard, .plot, .land, .sin"); if(grid) el.style.setProperty("--rd", Math.min(sibIndex(el), 5) * 0.08 + "s"); });
+    if("IntersectionObserver" in window){
+      const io = new IntersectionObserver(es => es.forEach(e => { if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target); } }), {rootMargin: "0px 0px -8% 0px", threshold: 0.08});
+      els.forEach(el => io.observe(el));
+    } else els.forEach(el => el.classList.add("in"));
+  }
 
   // 별 배경
   {
