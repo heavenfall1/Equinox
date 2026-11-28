@@ -348,6 +348,7 @@ button.sin:hover::before,button.sin:focus-visible::before,button.sin:active::bef
 .realm-head::before{top:0}.realm-head::after{bottom:0}
 .realm-kicker{margin:0 0 10px;font-size:14px;letter-spacing:.18em;color:#c9b98a}
 .realm-title{margin:0;font-size:clamp(34px,6vw,52px);line-height:1.05;letter-spacing:.3em;padding-left:.3em;color:#f6ecd0;text-shadow:0 0 26px rgba(232,220,181,.3)}
+.lead-em{color:#ecdcff;font-weight:700;text-shadow:0 0 12px rgba(190,150,240,.55);background:linear-gradient(transparent 62%,rgba(176,138,208,.28) 62%);padding:0 2px}
 footer{text-align:center;color:var(--mute);font-size:13px;margin-top:64px}
 footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;margin-bottom:6px}
 @media(prefers-reduced-motion:no-preference){.detail:not([hidden]){animation:rise .45s ease}@keyframes rise{from{opacity:0;transform:translateY(10px)}}}
@@ -800,7 +801,7 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
     lbFrom = e.currentTarget;
     lbImg.removeAttribute("src"); lbImg.alt = "";
     lbPos.textContent = "칠죄종의 총수"; lbName.textContent = "미공개"; lbEpi.textContent = "‘신을 심판하는 집행관’";
-    lbBio.innerHTML = LEAD_BIO.map(t => `<p>${esc(t)}</p>`).join("");
+    lbBio.innerHTML = LEAD_BIO.map(t => `<p>${esc(t).replace("신을 심판하는 집행관", `<b class="lead-em">신을 심판하는 집행관</b>`)}</p>`).join("");
     lbBox.classList.remove("wide"); lbBox.classList.add("noimg");
     lb.hidden = false; lbBox.scrollTop = 0; document.documentElement.classList.add("locked-lb");
     document.getElementById("lbX").focus({preventScroll:true});
