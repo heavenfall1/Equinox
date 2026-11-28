@@ -322,15 +322,16 @@ img,canvas,.cover-bg{-webkit-user-drag:none;user-drag:none;-webkit-touch-callout
   .rv.in{opacity:1;translate:0 0}
 }
 .sin-lead-wrap{display:flex;justify-content:center;margin:0 0 14px}
-.sin.sin-god{flex:0 0 calc(25% - 9px);min-width:170px;border:1px solid rgba(232,220,181,.7);background:radial-gradient(70% 55% at 50% 35%,rgba(232,220,181,.22),transparent 70%),#100e13;box-shadow:0 0 34px rgba(232,220,181,.25)}
-.sin.sin-god .sin-t{color:#e8dcb5}
-.sin.sin-god b{color:#fff6dc;letter-spacing:.12em}
-.sin.sin-god small{color:#bfb6a0}
-.sin-link{width:1px;height:28px;margin:-14px auto 0;background:linear-gradient(rgba(232,220,181,.6),rgba(205,182,230,.5))}
 .sin.sin-lead{flex:0 0 calc(25% - 9px);min-width:170px;border:1px solid rgba(205,182,230,.45);background:radial-gradient(70% 55% at 50% 35%,rgba(176,138,208,.16),transparent 70%),#0e0c13;box-shadow:0 0 22px rgba(176,138,208,.15)}
 .sin.sin-lead .sin-t{color:#d8c6ee}
 .sin-lead-wrap::after{content:"";display:none}
-@media(max-width:600px){.sin.sin-lead,.sin.sin-god{flex-basis:calc(50% - 6px)}}
+@media(max-width:600px){.sin.sin-lead{flex-basis:calc(50% - 6px)}}
+.god-card{max-width:760px;margin:0 auto;text-align:center;border:1px solid rgba(232,220,181,.35);border-radius:8px;padding:clamp(26px,5vw,46px) clamp(18px,4vw,40px);background:radial-gradient(80% 60% at 50% 0%,rgba(232,220,181,.10),transparent 70%),linear-gradient(180deg,#13111a,#0c0b10);box-shadow:0 0 40px rgba(232,220,181,.08)}
+.god-card .tree{display:block;width:64px;height:64px;margin:0 auto 14px;color:#e8dcb5}
+.god-kicker{margin:0;font-size:14px;color:var(--day)}
+.god-card .world-h{margin:6px 0 4px}
+.god-epi{margin:0 0 22px;color:var(--mute);font-size:15px}
+.god-prose{max-width:58ch;margin:0 auto}
 footer{text-align:center;color:var(--mute);font-size:13px;margin-top:64px}
 footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;margin-bottom:6px}
 @media(prefers-reduced-motion:no-preference){.detail:not([hidden]){animation:rise .45s ease}@keyframes rise{from{opacity:0;transform:translateY(10px)}}}
@@ -397,13 +398,22 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
     <div id="ranks"></div>
   </section>
 
+  <section class="god-sec" aria-labelledby="godTitle">
+    <div class="divider" aria-hidden="true"></div>
+    <div class="god-card">
+      <svg class="tree" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="30" fill="none" stroke="currentColor" stroke-width=".8" opacity=".45"/><path d="M32 9c-5 0-8.6 2.6-10 6.2-4.4.2-7.8 3.6-7.8 8 0 1.5.4 2.9 1.1 4.1-2 1.5-3.3 3.8-3.3 6.5 0 4.5 3.6 8.1 8.1 8.1 1.2 0 2.3-.2 3.3-.7 1.8 1.5 4.2 2.4 6.8 2.4h3.6c2.6 0 5-.9 6.8-2.4 1 .5 2.1.7 3.3.7 4.5 0 8.1-3.6 8.1-8.1 0-2.7-1.3-5-3.3-6.5.7-1.2 1.1-2.6 1.1-4.1 0-4.4-3.4-7.8-7.8-8C40.6 11.6 37 9 32 9z" fill="currentColor" fill-opacity=".16" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M32 50V22M32 36l-9-7M23 29l-5 1M23 29l-2-5M32 32l8-8M40 24l5 0M40 24l1-5M32 27l-4-6M32 25l3-7"/><path d="M32 50c-2 1.6-5.5 2.8-10 3.2M32 50c2 1.6 5.5 2.8 10 3.2M32 50c-1 2.4-2.6 4.2-5 5.6M32 50c1 2.4 2.6 4.2 5 5.6M32 50v6.5"/></g><path d="M30.4 50h3.2l-.4-13h-2.4z" fill="currentColor"/><g fill="currentColor"><circle cx="18" cy="30" r="1.6"/><circle cx="21" cy="24" r="1.4"/><circle cx="45" cy="24" r="1.6"/><circle cx="41" cy="19" r="1.4"/><circle cx="28" cy="21" r="1.3"/><circle cx="35" cy="18" r="1.5"/><circle cx="32" cy="14" r="1.8"/></g></svg>
+      <p class="god-kicker">세계의 창조자</p>
+      <h2 id="godTitle" class="world-h">창조신 루타비스</h2>
+      <p class="god-epi">유일무이한 창조자이자 절대신</p>
+      <div class="prose god-prose"><p>루타비스는 이 세계와 만물, 그리고 법칙을 무(無)에서 창조해 낸 절대신이다. 어떤 기록에도 그 구체적인 외형은 남아 있지 않으며, 오직 루타비스가 혼돈 속에서 세계를 창조했다는 단 한 줄의 진리만이 전해 내려온다.</p><p>그리고 루타비스는 세상의 7가지 근원적 죄악을 심판하기 위해, 일곱 명의 집행관을 직접 선택했다.</p></div>
+    </div>
+  </section>
+
   <section class="sins-sec" aria-labelledby="sinsTitle">
     <div class="divider" aria-hidden="true"></div>
     <h2 id="sinsTitle" class="world-h">칠죄종<span class="han-h">七罪宗</span></h2>
     <p class="sub">루타비스가 선택한 7명의 집행관</p>
     <div class="sins-desc"><p>칠죄종(七罪宗)은 루타비스의 선택을 받아 탄생한 7명의 심판관이자 집행관이다. 이들은 세상에서 7가지 근원적 죄악을 저지른 자들을 색출하고, 그 죄의 무게를 심판하여 직접 형벌을 집행한다.</p><p>그러나 이들은 단순히 죄를 벌하는 자들이 아니다. 역설적으로 자신이 맡은 죄악의 권능을 다루거나, 그 본질을 꿰뚫어 보는 능력을 지니고 있다.</p></div>
-    <div class="sin-lead-wrap"><div class="sin sin-god"><span class="sin-t">창조신</span><b>루타비스</b><small>칠죄종을 선택한 자</small></div></div>
-    <div class="sin-link" aria-hidden="true"></div>
     <div class="sin-lead-wrap"><div class="sin sin-lead"><span class="sin-t">칠죄종의 총수</span><b>미공개</b></div></div>
     <div class="sins" id="sins"></div>
   </section>
