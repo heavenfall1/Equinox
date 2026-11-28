@@ -800,7 +800,7 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
   document.getElementById("leadCard").addEventListener("click", e => {
     lbFrom = e.currentTarget;
     lbImg.removeAttribute("src"); lbImg.alt = "";
-    lbPos.textContent = "칠죄종의 총수"; lbName.textContent = "미공개"; lbEpi.textContent = "‘신을 심판하는 집행관’";
+    lbPos.textContent = "칠죄종의 총수"; lbName.textContent = "미공개"; lbEpi.textContent = "‘칠죄종(七罪宗)의 집행관’";
     lbBio.innerHTML = LEAD_BIO.map(t => `<p>${esc(t).replace("신을 심판하는 집행관", `<b class="lead-em">신을 심판하는 집행관</b>`)}</p>`).join("");
     lbBox.classList.remove("wide"); lbBox.classList.add("noimg");
     lb.hidden = false; lbBox.scrollTop = 0; document.documentElement.classList.add("locked-lb");
