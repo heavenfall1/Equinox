@@ -249,6 +249,10 @@ img,canvas,.cover-bg{-webkit-user-drag:none;user-drag:none;-webkit-touch-callout
 @media(prefers-reduced-motion:no-preference){.pro-key.shine{animation:goldSweep 3.6s ease-in-out infinite}@keyframes goldSweep{0%{background-position:100% 0}55%,100%{background-position:0% 0}}}
 .prologue .ph{display:inline-block;white-space:nowrap}
 .pro-key{text-shadow:none}
+.sins-desc{max-width:62ch;margin:0 auto 34px;padding:0 4px}
+.sins-desc p{margin:0 0 1em;font-size:16px;line-height:1.9;color:#d8d3e0;word-break:keep-all;text-align:center}
+.sins-desc p:last-child{margin:0}
+@media(max-width:600px){.sins-desc p{text-align:left}}
 footer{text-align:center;color:var(--mute);font-size:13px;margin-top:64px}
 footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;margin-bottom:6px}
 @media(prefers-reduced-motion:no-preference){.detail:not([hidden]){animation:rise .45s ease}@keyframes rise{from{opacity:0;transform:translateY(10px)}}}
@@ -312,6 +316,7 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
     <div class="divider" aria-hidden="true"></div>
     <h2 id="sinsTitle" class="world-h">칠죄종<span class="han-h">七罪宗</span></h2>
     <p class="sub">루타비스가 선택한 7명의 집행관</p>
+    <div class="sins-desc"><p>칠죄종(七罪宗)은 루타비스의 선택을 받아 탄생한 7명의 심판관이자 집행관이다. 이들은 세상에서 7가지 근원적 죄악을 저지른 자들을 색출하고, 그 죄의 무게를 심판하여 직접 형벌을 집행한다.</p><p>그러나 이들은 단순히 죄를 벌하는 자들이 아니다. 역설적으로 자신이 맡은 죄악의 권능을 다루거나, 그 본질을 꿰뚫어 보는 능력을 지니고 있다.</p></div>
     <div class="sins" id="sins"></div>
   </section>
 
