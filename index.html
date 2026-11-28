@@ -342,6 +342,12 @@ button.sin:hover::before,button.sin:focus-visible::before,button.sin:active::bef
 .lb-box.noimg{width:min(100%,560px);grid-template-columns:minmax(0,1fr)}
 .lb-box.noimg .lb-txt{padding:clamp(26px,4vw,40px) clamp(20px,4vw,36px)}
 .sins-desc .ph{display:inline-block;white-space:nowrap}
+.realm-break{width:1px;height:clamp(110px,16vw,170px);margin:clamp(70px,10vw,110px) auto 0;background:linear-gradient(transparent,rgba(232,220,181,.75) 40%,rgba(232,220,181,.75) 70%,transparent)}
+.realm-head{text-align:center;margin:26px auto 56px;padding:26px 0 30px;max-width:880px;position:relative}
+.realm-head::before,.realm-head::after{content:"";position:absolute;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(232,220,181,.55) 20%,rgba(232,220,181,.55) 80%,transparent)}
+.realm-head::before{top:0}.realm-head::after{bottom:0}
+.realm-kicker{margin:0 0 10px;font-size:14px;letter-spacing:.18em;color:#c9b98a}
+.realm-title{margin:0;font-size:clamp(34px,6vw,52px);line-height:1.05;letter-spacing:.3em;padding-left:.3em;color:#f6ecd0;text-shadow:0 0 26px rgba(232,220,181,.3)}
 footer{text-align:center;color:var(--mute);font-size:13px;margin-top:64px}
 footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;margin-bottom:6px}
 @media(prefers-reduced-motion:no-preference){.detail:not([hidden]){animation:rise .45s ease}@keyframes rise{from{opacity:0;transform:translateY(10px)}}}
@@ -408,9 +414,14 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
     <div id="ranks"></div>
   </section>
 
+  <div class="realm-break" aria-hidden="true"></div>
+  <header class="realm-head">
+    <p class="realm-kicker">인간의 영역을 넘어선 존재들</p>
+    <h2 class="realm-title">초월자</h2>
+  </header>
+
   <section class="god-sec" aria-labelledby="godTitle">
-    <div class="divider" aria-hidden="true"></div>
-    <h2 id="godTitle" class="world-h">창조신 루타비스</h2>
+    <h3 id="godTitle" class="world-h">창조신 루타비스</h3>
     <p class="sub">유일무이한 창조자이자 절대신</p>
     <div class="sins-desc"><p><span class="ph">루타비스는 신들 중 하나로,</span><br><span class="ph">이 세계와 만물, 그리고 법칙을</span> <span class="ph">무(無)에서 창조해 낸 절대신이다.</span></p><p class="god-dark"><span class="ph">창조의 권능을 지닌 존재이지만,</span> <span class="ph">어째서 이 세계를 만들었는지,</span><br><span class="ph">신계에서 무엇을 하는지는</span> <span class="ph">아무도 모른다.</span></p></div>
     <div class="sin-lead-wrap"><div class="sin sin-god"><span class="sin-t">세계의 창조자</span><b>루타비스</b></div></div>
@@ -1058,7 +1069,7 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
   {
     const SEL = [".welcome", ".welcome-sub", ".welcome-vline", ".split-line", ".pro-title", ".pro-txt", ".pro-key",
       ".divider", ".world-h", ".world-sub", ".sub", ".lore", ".lore-fig", ".land", ".detail > .ico", ".detail > .region", ".detail > h2", ".detail > .han",
-      ".detail > .lead", ".rank-prose", ".cards .card", ".sins-desc", ".sin", ".chips", ".rg-h", ".rcard", ".plot", ".sin-god", "footer"].join(",");
+      ".detail > .lead", ".rank-prose", ".cards .card", ".sins-desc", ".sin", ".chips", ".rg-h", ".rcard", ".plot", ".sin-god", ".realm-break", ".realm-head", "footer"].join(",");
     const els = [...document.querySelectorAll(SEL)].filter(el => !el.closest(".cover, .signin, .lb"));
     const sibIndex = el => { const p = el.parentElement; if(!p) return 0; const kids = [...p.children].filter(k => k.matches(SEL)); return Math.max(0, kids.indexOf(el)); };
     els.forEach(el => { el.classList.add("rv"); const grid = el.matches(".card, .rcard, .plot, .land, .sin"); if(grid) el.style.setProperty("--rd", Math.min(sibIndex(el), 5) * 0.08 + "s"); });
