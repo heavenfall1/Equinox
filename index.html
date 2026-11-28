@@ -235,11 +235,16 @@ img,canvas,.cover-bg{-webkit-user-drag:none;user-drag:none;-webkit-touch-callout
 @media(max-width:600px){.cover-ui{bottom:calc(84px + env(safe-area-inset-bottom))}.vol{width:80px}}
 .welcome-vline{width:1px;height:clamp(56px,9vw,80px);margin:26px auto 0;background:linear-gradient(transparent,rgba(232,220,181,.7) 45%,rgba(232,220,181,.7) 55%,transparent)}
 .welcome-sub.last{margin-top:26px;margin-bottom:0;font-size:clamp(17px,2.5vw,21px);line-height:1.9;color:#f1eef6;max-width:760px}
-.split-line{height:1px;width:100%;max-width:880px;margin:clamp(52px,8vw,80px) auto;background:linear-gradient(90deg,transparent,rgba(232,220,181,.55) 15%,rgba(232,220,181,.55) 85%,transparent)}
+.split-line{width:1px;height:clamp(90px,14vw,140px);margin:clamp(40px,6vw,60px) auto;background:linear-gradient(transparent,rgba(232,220,181,.75) 30%,rgba(232,220,181,.75) 70%,transparent)}
 .prologue{text-align:center;max-width:760px;margin:0 auto}
 .pro-txt{margin:0;font-size:clamp(15px,2vw,17px);line-height:2.05;color:#cfcbd8}
 .pro-key{margin:30px auto 0;padding:22px 8px;border-block:1px solid rgba(232,220,181,.28);font-size:clamp(18px,2.8vw,23px);line-height:1.7;font-weight:700;color:#efe3bd;text-shadow:0 0 18px rgba(232,220,181,.25)}
+.pro-key .ph{}
+.pro-key{background:linear-gradient(100deg,#d9bb72 0%,#d9bb72 42%,#fff6dc 47%,#ffffff 50%,#fff6dc 53%,#d9bb72 58%,#d9bb72 100%);background-size:300% 100%;background-position:100% 0;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+@supports not ((-webkit-background-clip:text) or (background-clip:text)){.pro-key{-webkit-text-fill-color:currentColor;background:none}}
+@media(prefers-reduced-motion:no-preference){.pro-key.shine{animation:goldSweep 3.6s ease-in-out infinite}@keyframes goldSweep{0%{background-position:100% 0}55%,100%{background-position:0% 0}}}
 .prologue .ph{display:inline-block;white-space:nowrap}
+.pro-key{text-shadow:none}
 footer{text-align:center;color:var(--mute);font-size:13px;margin-top:64px}
 footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;margin-bottom:6px}
 @media(prefers-reduced-motion:no-preference){.detail:not([hidden]){animation:rise .45s ease}@keyframes rise{from{opacity:0;transform:translateY(10px)}}}
@@ -873,6 +878,10 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
   ["click","touchend","keydown"].forEach(t => addEventListener(t, tryStart, true));
   const sigTap = e => { if(sig.classList.contains("done")) return; if(e.type === "keydown" && !["Enter"," ","Spacebar"].includes(e.key)) return; e.preventDefault(); if(!userOff) play(); enterSite(); };
   sig.addEventListener("click", sigTap); sig.addEventListener("touchend", sigTap, {passive:false}); sig.addEventListener("keydown", sigTap);
+
+  // 강조 문장: 화면에 보이면 금빛이 슥 지나가요
+  { const k = document.querySelector(".pro-key");
+    if(k){ if("IntersectionObserver" in window){ const io = new IntersectionObserver(es => es.forEach(e => k.classList.toggle("shine", e.isIntersecting)), {threshold:.4}); io.observe(k); } else k.classList.add("shine"); } }
 
   // 별 배경
   {
