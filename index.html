@@ -414,6 +414,9 @@ button.scard:hover,button.scard:focus-visible{transform:translateY(-3px);box-sha
 .sv .story-fig1,.sv .story-fig2{max-width:420px;margin-left:auto;margin-right:auto}
 .sv .story-title{font-size:clamp(22px,3.4vw,28px)}
 .sv .story-body p{font-size:15.5px}
+.tab[data-tab=behind]{flex-basis:200px}
+.tab .ph{display:inline-block;white-space:nowrap}
+@media(max-width:600px){.tab[data-tab=behind] .tk{font-size:12.5px;white-space:normal;line-height:1.25}.tab[data-tab=behind]{flex-basis:96px}}
 footer{text-align:center;color:var(--mute);font-size:13px;margin-top:64px}
 footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;margin-bottom:6px}
 @media(prefers-reduced-motion:no-preference){.detail:not([hidden]){animation:rise .45s ease}@keyframes rise{from{opacity:0;transform:translateY(10px)}}}
@@ -468,7 +471,7 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
     <button class="tab" role="tab" id="t-world" aria-controls="world" aria-selected="true" data-tab="world"><span class="tk">세계관</span></button>
     <button class="tab" role="tab" id="t-characters" aria-controls="characters" aria-selected="false" data-tab="characters" tabindex="-1"><span class="tk">등장인물</span></button>
     <button class="tab" role="tab" id="t-plots" aria-controls="plots" aria-selected="false" data-tab="plots" tabindex="-1"><span class="tk">플롯</span></button>
-    <button class="tab" role="tab" id="t-behind" aria-controls="behind" aria-selected="false" data-tab="behind" tabindex="-1"><span class="tk">비하인드</span></button>
+    <button class="tab" role="tab" id="t-behind" aria-controls="behind" aria-selected="false" data-tab="behind" tabindex="-1"><span class="tk"><span class="ph">비하인드/</span><span class="ph">업로드 예정</span></span></button>
     <span class="tab-ind" id="tabInd" aria-hidden="true"></span>
   </nav>
   <div class="pane" id="world" role="tabpanel" aria-labelledby="t-world">
