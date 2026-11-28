@@ -332,6 +332,16 @@ img,canvas,.cover-bg{-webkit-user-drag:none;user-drag:none;-webkit-touch-callout
 .god-dark{color:#a79fb5 !important;font-style:normal;letter-spacing:.02em}
 .sins-desc .em{color:#e3d4f3;font-weight:700}
 .sin.sin-lead .lead-note{margin-top:6px;font-size:12.5px;color:#bba9d4;word-break:keep-all}
+button.sin{appearance:none;font:inherit;color:inherit;cursor:pointer;position:relative;isolation:isolate;transition:transform .3s ease,box-shadow .3s ease}
+button.sin::before{content:"";position:absolute;inset:0;z-index:3;border-radius:inherit;padding:1.5px;pointer-events:none;opacity:0;transition:opacity .35s ease;background:conic-gradient(from var(--ga),rgba(205,182,230,.15),#e9dcf7 12%,#fff 16%,#b99be0 22%,rgba(205,182,230,.15) 40%,rgba(205,182,230,.15) 60%,#b99be0 72%,#fff 78%,#e9dcf7 84%,rgba(205,182,230,.15));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0)}
+button.sin:hover,button.sin:focus-visible,button.sin:active{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(205,182,230,.35),0 0 24px rgba(176,138,208,.3);outline:none}
+button.sin:hover::before,button.sin:focus-visible::before,button.sin:active::before{opacity:1}
+@media(prefers-reduced-motion:no-preference){button.sin:hover::before,button.sin:focus-visible::before{animation:ringSpin 3.2s linear infinite}}
+.lead-more{margin-top:12px;padding:3px 10px;border-radius:999px;border:1px solid rgba(205,182,230,.45);font-size:12px;color:#d8c6ee}
+.lb-box.noimg .lb-pic{display:none}
+.lb-box.noimg{width:min(100%,560px);grid-template-columns:minmax(0,1fr)}
+.lb-box.noimg .lb-txt{padding:clamp(26px,4vw,40px) clamp(20px,4vw,36px)}
+.sins-desc .ph{display:inline-block;white-space:nowrap}
 footer{text-align:center;color:var(--mute);font-size:13px;margin-top:64px}
 footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;margin-bottom:6px}
 @media(prefers-reduced-motion:no-preference){.detail:not([hidden]){animation:rise .45s ease}@keyframes rise{from{opacity:0;transform:translateY(10px)}}}
@@ -402,7 +412,7 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
     <div class="divider" aria-hidden="true"></div>
     <h2 id="godTitle" class="world-h">창조신 루타비스</h2>
     <p class="sub">유일무이한 창조자이자 절대신</p>
-    <div class="sins-desc"><p>루타비스는 신들 중 하나로, 이 세계와 만물, 그리고 법칙을 무(無)에서 창조해 낸 절대신이다.</p><p class="god-dark">그러나 그녀가 왜 이 세계를 창조하였는지,<br>신계에서는 무엇을 하는지는 아무도 모른다.</p></div>
+    <div class="sins-desc"><p><span class="ph">루타비스는 신들 중 하나로,</span><br><span class="ph">이 세계와 만물, 그리고 법칙을</span> <span class="ph">무(無)에서 창조해 낸 절대신이다.</span></p><p class="god-dark"><span class="ph">창조의 권능을 지닌 존재이지만,</span> <span class="ph">어째서 이 세계를 만들었는지,</span><br><span class="ph">신계에서 무엇을 하는지는</span> <span class="ph">아무도 모른다.</span></p></div>
     <div class="sin-lead-wrap"><div class="sin sin-god"><span class="sin-t">세계의 창조자</span><b>루타비스</b></div></div>
   </section>
 
@@ -410,8 +420,8 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
     <div class="divider" aria-hidden="true"></div>
     <h2 id="sinsTitle" class="world-h">칠죄종<span class="han-h">七罪宗</span></h2>
     <p class="sub">루타비스가 선택한 7명의 집행관</p>
-    <div class="sins-desc"><p>칠죄종(七罪宗)은 루타비스의 선택을 받아 탄생한 7명의 심판관이자 집행관이다. 이들은 세상에서 7가지 근원적 죄악을 저지른 자들을 색출하고, 그 죄의 무게를 심판하여 직접 형벌을 집행한다.</p><p>그러나 이들은 단순히 죄를 벌하는 자들이 아니다. 역설적으로 자신이 맡은 죄악의 권능을 다루거나, 그 본질을 꿰뚫어 보는 능력을 지니고 있다.</p><p>그리고 이들 위에는 칠죄종의 총수가 존재한다. 총수는 인간이 아닌 <b class="em">신을 심판하는 집행관</b>으로, 루타비스의 선택을 받은 자가 아니라 루타비스와 협력하는 자로 알려져 있다.</p></div>
-    <div class="sin-lead-wrap"><div class="sin sin-lead"><span class="sin-t">칠죄종의 총수</span><b>미공개</b><small class="lead-note">신을 심판하는 집행관</small></div></div>
+    <div class="sins-desc"><p>칠죄종(七罪宗)은 루타비스의 선택을 받아 탄생한 7명의 심판관이자 집행관이다. 이들은 세상에서 7가지 근원적 죄악을 저지른 자들을 색출하고, 그 죄의 무게를 심판하여 직접 형벌을 집행한다.</p><p>그러나 이들은 단순히 죄를 벌하는 자들이 아니다. 역설적으로 자신이 맡은 죄악의 권능을 다루거나, 그 본질을 꿰뚫어 보는 능력을 지니고 있다.</p></div>
+    <div class="sin-lead-wrap"><button class="sin sin-lead" id="leadCard" type="button" aria-haspopup="dialog"><span class="sin-t">칠죄종의 총수</span><b>미공개</b><small class="lead-note">신을 심판하는 집행관</small><span class="lead-more">설명 보기</span></button></div>
     <div class="sins" id="sins"></div>
   </section>
 
@@ -768,11 +778,22 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
       if(li && !(a[i+1] || "").startsWith("* ")) h += "</ul>";
       return h;
     }, "") : "";
-    lbBox.classList.toggle("wide", !!bio);
+    lbBox.classList.toggle("wide", !!bio); lbBox.classList.remove("noimg");
     lb.hidden = false; lbBox.scrollTop = 0; document.documentElement.classList.add("locked-lb");
     document.getElementById("lbX").focus({preventScroll:true});
   };
   ranksEl.addEventListener("click", e => { const b = e.target.closest(".por"); if(b) openLb(b); });
+  // ▼ 칠죄종의 총수 설명 (이미지 없이 글만)
+  const LEAD_BIO = ["칠죄종의 총수는 일곱 집행관 위에 선 존재다.", "인간이 아닌 신을 심판하는 집행관으로, 루타비스의 선택을 받은 자가 아니라 루타비스와 협력하는 자로 알려져 있다.", "그 정체와 모습은 아직 누구에게도 드러나지 않았다."];
+  document.getElementById("leadCard").addEventListener("click", e => {
+    lbFrom = e.currentTarget;
+    lbImg.removeAttribute("src"); lbImg.alt = "";
+    lbPos.textContent = "칠죄종의 총수"; lbName.textContent = "미공개"; lbEpi.textContent = "‘신을 심판하는 집행관’";
+    lbBio.innerHTML = LEAD_BIO.map(t => `<p>${esc(t)}</p>`).join("");
+    lbBox.classList.remove("wide"); lbBox.classList.add("noimg");
+    lb.hidden = false; lbBox.scrollTop = 0; document.documentElement.classList.add("locked-lb");
+    document.getElementById("lbX").focus({preventScroll:true});
+  });
 
   // ▼ 등장인물 탭: 정점의 존재들에 나온 인물을 소속별로 한눈에
   const rosterEl = document.getElementById("roster"), chipsEl = document.getElementById("rosterChips");
@@ -803,7 +824,7 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
   };
   tabsEl.addEventListener("click", e => { const t = e.target.closest(".tab"); if(!t) return; showTab(t.dataset.tab, true); history.replaceState(null, "", "#" + t.dataset.tab); });
   tabsEl.addEventListener("keydown", e => { if(!["ArrowLeft","ArrowRight"].includes(e.key)) return; const cur = TABS.indexOf(tabsEl.querySelector('[aria-selected="true"]').dataset.tab); const nx = TABS[(cur + (e.key === "ArrowRight" ? 1 : TABS.length - 1)) % TABS.length]; showTab(nx, true); history.replaceState(null, "", "#" + nx); tabsEl.querySelector(`[data-tab="${nx}"]`).focus(); });
-  lb.addEventListener("click", e => { if(e.target === lb || e.target.closest(".lb-x")) closeLb(); else if(!lbBox.classList.contains("wide")) closeLb(); });
+  lb.addEventListener("click", e => { if(e.target === lb || e.target.closest(".lb-x")) closeLb(); else if(!lbBox.classList.contains("wide") && !lbBox.classList.contains("noimg")) closeLb(); });
   addEventListener("keydown", e => { if(e.key === "Escape") closeLb(); });
   // ▼ 세계관 항목: 아래 배열에 같은 형식으로 추가하면 섹션이 늘어납니다
   const LORE = [
