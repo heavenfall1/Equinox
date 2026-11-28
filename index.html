@@ -233,7 +233,8 @@ img,canvas,.cover-bg{-webkit-user-drag:none;user-drag:none;-webkit-touch-callout
 .welcome-sub .wbr{display:none}
 @media(min-width:600px){.welcome-sub .wbr{display:inline}}
 @media(max-width:600px){.cover-ui{bottom:calc(84px + env(safe-area-inset-bottom))}.vol{width:80px}}
-.welcome-sub.last{margin-top:22px;margin-bottom:clamp(64px,10vw,96px)}
+.welcome-vline{width:1px;height:clamp(56px,9vw,80px);margin:26px auto 0;background:linear-gradient(transparent,rgba(232,220,181,.7) 45%,rgba(232,220,181,.7) 55%,transparent)}
+.welcome-sub.last{margin-top:26px;margin-bottom:clamp(64px,10vw,96px);font-size:clamp(17px,2.5vw,21px);line-height:1.9;color:#f1eef6;max-width:760px}
 footer{text-align:center;color:var(--mute);font-size:13px;margin-top:64px}
 footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;margin-bottom:6px}
 @media(prefers-reduced-motion:no-preference){.detail:not([hidden]){animation:rise .45s ease}@keyframes rise{from{opacity:0;transform:translateY(10px)}}}
@@ -265,6 +266,7 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
 
   <p class="welcome"><b><span class="d">낮</span>과 <span class="n">밤</span>의 균형</b>, 이퀴녹스에 오신 것을 환영합니다.</p>
   <p class="welcome-sub"><span class="ph">낮과 밤의 길이가 같아지는</span> <span class="ph">찰나의 균형처럼,</span><br class="wbr"> <span class="ph">당신의 마음에도</span> <span class="ph">흔들림 없는 평온이</span> <span class="ph">찾아오길 바랍니다.</span><br> <span class="ph">버거운 현실의 무게는</span> <span class="ph">잠시 내려놓고,</span><br class="wbr"> <span class="ph">이곳에서 온전한 휴식을 누려보세요.</span></p>
+  <div class="welcome-vline" aria-hidden="true"></div>
   <p class="welcome-sub last"><span class="ph">현실과 환상이</span> <span class="ph">맞닿은 경계에서,</span><br class="wbr"> <span class="ph">당신의 선택으로 완성되는</span> <span class="ph">깊이 있는 서사로</span> <span class="ph">당신을 초대합니다.</span></p>
 
 
