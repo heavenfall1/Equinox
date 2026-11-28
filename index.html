@@ -235,9 +235,7 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
   <section class="ranks-sec" aria-labelledby="ranksTitle">
     <div class="divider" aria-hidden="true"></div>
     <h2 id="ranksTitle" class="world-h">정점의 존재들</h2>
-    <p class="sub">각 칭호를 눌러 그 자리에 오른 이들을 확인하세요.</p>
     <div id="ranks"></div>
-    <section class="detail" id="detail" hidden aria-live="polite"></section>
   </section>
 
   <section class="sins-sec" aria-labelledby="sinsTitle">
@@ -302,34 +300,17 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
   const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 
   const ranksEl = document.getElementById("ranks");
-  const detail = document.getElementById("detail");
-  const tiers = [...new Set(RANKS.map(r => r.tier))];
-  ranksEl.innerHTML = tiers.map(t => `<div class="tier">${RANKS.filter(r => r.tier === t).map(r =>
-    `<button class="rank${r.top ? " top" : ""}" id="btn-${r.id}" data-id="${r.id}" aria-expanded="false" aria-controls="detail"><svg class="ico ico-${r.icon}" viewBox="0 0 24 24" aria-hidden="true">${ICONS[r.icon] || ""}</svg>${esc(r.name)}<small>${r.members.length ? r.members.length + "인" : "미공개"}</small></button>`).join("")}</div>`).join("");
-
   const rowsHtml = (r, card) => {
     const layout = r.rows || [r.members.length];
     let i = 0;
     return layout.map(n => { const row = r.members.slice(i, i + n).map((m, k) => card(m, i + k)).join(""); i += n; return `<div class="cards row">${row}</div>`; }).join("");
   };
-  function show(id){
-    const r = RANKS.find(x => x.id === id);
-    document.querySelectorAll(".rank").forEach(b => b.setAttribute("aria-expanded", String(!!r && b.dataset.id === id)));
-    if(!r){ detail.hidden = true; return; }
-    detail.innerHTML = `<svg class="ico big ico-${r.icon}" viewBox="0 0 24 24" aria-hidden="true">${ICONS[r.icon] || ""}</svg><p class="region">${esc(r.region)}</p><h2>${esc(r.name)}</h2><p class="han">${esc(r.han)} · ${r.members.length ? "총 " + r.members.length + "인" : "인물 미공개"}</p><p class="lead">${esc(r.lead)}</p>${r.body ? `<div class="prose rank-prose">${r.body.map(t => t.startsWith("## ") ? `<h3 class="sub-h">${esc(t.slice(3))}</h3>` : `<p>${esc(t)}</p>`).join("")}</div>` : ""}
-      ${r.members.length ? "" : `<p class="empty">아직 공개된 인물이 없습니다.</p>`}${rowsHtml(r, ([pos,epi,name,img],i) => `<article class="card${name === "미공개" ? " sealed" : ""}${img ? " has-img" : ""}">${img ? `<button class="por" type="button" data-src="${esc(img)}" data-name="${esc(name)}" aria-label="${esc(name)} 이미지 크게 보기"><img src="${esc(img)}" alt="${esc(name)}" loading="lazy"></button>` : ""}<p class="pos">${esc(pos)}</p><h3>${esc(name)}</h3>${epi ? `<p class="title">‘${esc(epi)}’</p>` : ""}</article>`)}
-      <button class="close" type="button">닫기</button>`;
-    detail.hidden = false;
-    detail.querySelector(".close").addEventListener("click", () => { history.replaceState(null, "", location.pathname); show(null); document.getElementById("btn-" + id).focus(); });
-  }
-  ranksEl.addEventListener("click", e => {
-    const b = e.target.closest(".rank"); if(!b) return;
-    const open = b.getAttribute("aria-expanded") === "true";
-    if(open){ history.replaceState(null, "", location.pathname); show(null); }
-    else { location.hash = b.dataset.id; }
-  });
+  // 모든 칭호를 누르지 않아도 처음부터 펼쳐서 보여줘요
+  ranksEl.innerHTML = RANKS.map(r => `<section class="detail" id="${r.id}"><svg class="ico big ico-${r.icon}" viewBox="0 0 24 24" aria-hidden="true">${ICONS[r.icon] || ""}</svg><p class="region">${esc(r.region)}</p><h2>${esc(r.name)}</h2><p class="han">${esc(r.han)} · ${r.members.length ? "총 " + r.members.length + "인" : "인물 미공개"}</p><p class="lead">${esc(r.lead)}</p>${r.body ? `<div class="prose rank-prose">${r.body.map(t => t.startsWith("## ") ? `<h3 class="sub-h">${esc(t.slice(3))}</h3>` : `<p>${esc(t)}</p>`).join("")}</div>` : ""}
+      ${r.members.length ? "" : `<p class="empty">아직 공개된 인물이 없습니다.</p>`}${rowsHtml(r, ([pos,epi,name,img],i) => `<article class="card${name === "미공개" ? " sealed" : ""}${img ? " has-img" : ""}">${img ? `<button class="por" type="button" data-src="${esc(img)}" data-name="${esc(name)}" aria-label="${esc(name)} 이미지 크게 보기"><img src="${esc(img)}" alt="${esc(name)}" loading="lazy"></button>` : ""}<p class="pos">${esc(pos)}</p><h3>${esc(name)}</h3>${epi ? `<p class="title">‘${esc(epi)}’</p>` : ""}</article>`)}</section>`).join("");
+
   const lb = document.getElementById("lb"), lbImg = document.getElementById("lbImg"), lbName = document.getElementById("lbName");
-  detail.addEventListener("click", e => { const b = e.target.closest(".por"); if(!b) return; lbImg.src = b.dataset.src; lbImg.alt = b.dataset.name; lbName.textContent = b.dataset.name; lb.hidden = false; });
+  ranksEl.addEventListener("click", e => { const b = e.target.closest(".por"); if(!b) return; lbImg.src = b.dataset.src; lbImg.alt = b.dataset.name; lbName.textContent = b.dataset.name; lb.hidden = false; });
   lb.addEventListener("click", () => { lb.hidden = true; });
   addEventListener("keydown", e => { if(e.key === "Escape") lb.hidden = true; });
   // ▼ 세계관 항목: 아래 배열에 같은 형식으로 추가하면 섹션이 늘어납니다
@@ -592,7 +573,7 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
     if(!still) requestAnimationFrame(loop);
   }
 
-  const fromHash = () => { show(location.hash.slice(1) || null); if(!detail.hidden) requestAnimationFrame(() => detail.scrollIntoView({behavior:"smooth", block:"start"})); };
+  const fromHash = () => { const id = location.hash.slice(1); const el = id && document.getElementById(id); if(el && el.classList.contains("detail")) requestAnimationFrame(() => el.scrollIntoView({behavior:"smooth", block:"start"})); };
   addEventListener("hashchange", fromHash);
   fromHash();
 }
