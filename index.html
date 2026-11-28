@@ -6,6 +6,7 @@
 <title>Equinox_</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@700&text=%E6%A0%B9%E6%BA%90%E6%B7%B1%E6%B7%B5&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Pinyon+Script&display=swap" rel="stylesheet">
 <style>
 /* VOICE: 고요하고 격식 있는 세계관 소개, 낮과 밤의 대비
@@ -167,6 +168,8 @@ main{z-index:1}
 @media(prefers-reduced-motion:reduce){.sweep{display:none}}
 .cover-img{position:relative;height:100%;width:auto;max-width:100%;object-fit:cover;object-position:50% 30%;-webkit-mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent);mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent);will-change:transform}
 .cover::after{content:"";position:absolute;inset:0;background:linear-gradient(transparent 55%,rgba(5,7,12,.85));pointer-events:none}
+.cover-kanji{position:absolute;left:0;right:0;top:50%;z-index:1;margin:0;transform:translateY(-50%);text-align:center;font-family:"Noto Serif KR","Noto Serif JP","Songti SC","SimSun",serif;font-weight:700;font-size:clamp(40px,9vw,96px);letter-spacing:.32em;padding-left:.32em;line-height:1;color:#f4efe4;text-shadow:0 0 18px rgba(0,0,0,.85),0 0 42px rgba(0,0,0,.6),0 0 28px rgba(232,220,181,.35);pointer-events:none;white-space:nowrap}
+@media(prefers-reduced-motion:no-preference){.cover-kanji{animation:kanjiIn 2.2s 1.4s cubic-bezier(.2,.7,.2,1) both}@keyframes kanjiIn{from{opacity:0;letter-spacing:.6em;filter:blur(8px)}to{opacity:1;letter-spacing:.32em;filter:blur(0)}}}
 .cover-ui{position:absolute;left:0;right:0;bottom:clamp(28px,7vh,72px);z-index:1;display:flex;flex-direction:column;align-items:center;gap:14px}
 .cover-line{margin:0;font-size:clamp(16px,2.4vw,19px);color:#e9e6f0;text-shadow:0 2px 14px #000}
 .hint{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:13px;color:rgba(233,230,240,.75)}
@@ -264,6 +267,7 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
     <img class="cover-img" src="cover4.jpg" alt="고딕 성당 안에 나란히 선 붉은 머리와 은발의 두 인물, Equinox 로고">
   </div>
   <div class="sweep"></div>
+  <p class="cover-kanji" aria-label="근원심연">根源深淵</p>
   <div class="cover-ui">
     <p class="cover-line">Equinox_</p>
     <span class="hint">아래로 스크롤<svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
