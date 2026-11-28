@@ -389,6 +389,27 @@ button.sin.sin-god:hover,button.sin.sin-god:focus-visible,button.sin.sin-god:act
 .story-fig2{margin-top:40px;border-color:rgba(214,60,90,.45);box-shadow:0 0 40px rgba(214,40,80,.22),0 24px 60px -24px rgba(0,0,0,.9)}
 .story-truth{margin:0;padding:22px 8px;border-block:1px solid rgba(214,80,110,.5);font-size:clamp(18px,2.8vw,22px);font-weight:700;line-height:1.7;color:#ffd7df;text-shadow:0 0 18px rgba(214,40,80,.45)}
 .story-truth .ph{display:inline-block;white-space:nowrap}
+.stories{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;max-width:620px;margin:10px auto 30px}
+.scard{appearance:none;font:inherit;color:inherit;padding:0;text-align:center;border:1px solid rgba(232,220,181,.3);border-radius:8px;background:linear-gradient(180deg,#14121b,#0c0b10);overflow:hidden;display:flex;flex-direction:column;position:relative;isolation:isolate;transition:transform .3s ease,box-shadow .3s ease}
+button.scard{cursor:pointer}
+.scard-img{display:block;aspect-ratio:4/5;overflow:hidden;background:#000}
+.scard-img img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 30%;transition:transform .5s}
+button.scard:hover .scard-img img{transform:scale(1.05)}
+.scard-t{display:flex;flex-direction:column;gap:3px;padding:12px 10px 14px}
+.scard-k{font-size:12px;color:var(--day)}
+.scard-n{font-size:17px;font-weight:700;color:#f6ecd0;word-break:keep-all}
+.scard-more{align-self:center;margin-top:6px;padding:3px 10px;border-radius:999px;border:1px solid rgba(232,220,181,.45);font-size:12px;color:#efe3bd}
+button.scard:hover,button.scard:focus-visible{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(232,220,181,.35),0 0 22px rgba(232,220,181,.25);outline:none}
+.scard-soon{border-style:dashed;align-items:center;justify-content:center;gap:8px}
+.scard-soon b{font-size:20px;color:#f1e7c9}
+.scard-soon small{font-size:13px;color:var(--mute)}
+.sv{position:fixed;inset:0;z-index:40;background:rgba(5,4,8,.9);display:flex;align-items:flex-start;justify-content:center;padding:clamp(12px,3vw,32px);overflow:auto;backdrop-filter:blur(4px)}
+.sv[hidden]{display:none}
+.sv-box{position:relative;width:min(100%,640px);margin:auto;background:linear-gradient(180deg,#14121b,#0c0b10);border:1px solid var(--line);border-radius:10px;padding:clamp(20px,4vw,36px) clamp(16px,4vw,34px);box-shadow:0 30px 80px rgba(0,0,0,.7)}
+.sv .story{margin:0}
+.sv .story-fig1,.sv .story-fig2{max-width:420px;margin-left:auto;margin-right:auto}
+.sv .story-title{font-size:clamp(22px,3.4vw,28px)}
+.sv .story-body p{font-size:15.5px}
 footer{text-align:center;color:var(--mute);font-size:13px;margin-top:64px}
 footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;margin-bottom:6px}
 @media(prefers-reduced-motion:no-preference){.detail:not([hidden]){animation:rise .45s ease}@keyframes rise{from{opacity:0;transform:translateY(10px)}}}
@@ -398,6 +419,28 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
 <body>
 <div class="bgmbar" id="bgmbar"><button class="bgm" id="bgm" type="button" aria-label="배경음악 켜기" aria-pressed="false"><svg class="on" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="currentColor"/><path d="M15.5 8.8a4.5 4.5 0 0 1 0 6.4M18 6.3a8 8 0 0 1 0 11.4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><svg class="off" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="currentColor"/><path d="M16 9.5l5 5M21 9.5l-5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span class="bars" aria-hidden="true"><i></i><i></i><i></i></span></button><input class="vol" id="vol" type="range" min="0" max="100" step="1" value="50" aria-label="음악 소리 크기"><span class="volv" id="volv" aria-hidden="true">50</span></div>
 <div class="lb" id="lb" hidden role="dialog" aria-modal="true" aria-labelledby="lbName"><div class="lb-box"><button class="lb-x" id="lbX" type="button" aria-label="닫기">×</button><div class="lb-pic"><img id="lbImg" alt=""></div><div class="lb-txt"><p class="lb-pos" id="lbPos"></p><h3 id="lbName"></h3><p class="lb-epi" id="lbEpi"></p><div class="lb-bio" id="lbBio"></div></div></div></div>
+<div class="sv" id="sv" hidden role="dialog" aria-modal="true" aria-label="비하인드 스토리">
+  <div class="sv-box">
+    <button class="lb-x sv-x" type="button" aria-label="닫기">×</button>
+    <article class="story">
+      <figure class="story-fig story-fig1"><img src="img/behind-kallix.jpg" alt="거대한 마수에 맞서 쌍검을 든 검사 칼릭스" loading="lazy"></figure>
+      <p class="story-kicker">비하인드 스토리</p>
+      <h3 class="story-title">‘파천(破天)’ 칼릭스</h3>
+      <div class="story-body">
+        <p>칼릭스는 과거 아르카디아 대륙에서 칠성에 가장 가까웠던 검사로 알려진 인물이다.</p>
+        <p>압도적인 검술과 전투 감각으로 수많은 마수와 괴수를 토벌하며 이름을 떨쳤고, 사람들은 언젠가 그가 칠성이 될 것이라 믿었다.</p>
+        <p class="story-turn">하지만 현실은 달랐다.</p>
+        <p>그는 끝내 칠성의 벽을 넘지 못했고, 최종적으로 10클래스(X등급) 검사의 자리에 머물렀다.</p>
+        <p>자신의 한계를 받아들인 그는 모든 것을 내려놓고 가족과 함께 아르카디아 대륙을 떠나 네르가스 대륙 서부의 작은 변두리 마을에 정착했다.</p>
+        <p>어느 날 네르가스 대륙 중부와 서부의 경계에 위치한 도시로 향하는 귀족 호위 의뢰를 수행하던 중, 그 도시의 술집에서 마신 의문의 술로 인해 자신이 칠성이 되는 꿈을 꾸게 된다.</p>
+        <p>그 꿈을 잊지 못한 칼릭스는 점점 현실보다 환상에 집착하기 시작했고, 결국 집안의 모든 돈을 가지고 다시 그 도시로 떠났다.</p>
+        <p class="story-turn">그리고 그는 끝내 가족의 곁으로 돌아오지 않았다.</p>
+      </div>
+      <figure class="story-fig story-fig2"><img src="img/behind-hwanwol.jpg" alt="붉은 등불이 걸린 환월성의 거리" loading="lazy"></figure>
+      <p class="story-truth"><span class="ph">사실 그는,</span> <span class="ph">제5군주 루밀라가 지배하는</span> <span class="ph">환월성에 갇혀 있다.</span></p>
+    </article>
+  </div>
+</div>
 <p class="tapnote" id="tapnote">화면을 터치하면 노래가 시작됩니다</p>
 <audio id="bgmAudio" src="bgm.mp3" loop preload="auto" playsinline></audio>
 <div class="signin" id="sig" role="button" tabindex="0" aria-label="화면을 터치하면 입장합니다"><div class="sig-w"><canvas id="sigCv"></canvas></div><p class="sig-hint">화면을 터치하세요</p></div>
@@ -499,23 +542,13 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
 
   <div class="pane" id="behind" role="tabpanel" aria-labelledby="t-behind" hidden>
     <h2 class="world-h pane-h">비하인드</h2>
-    <article class="story">
-      <figure class="story-fig"><img src="img/behind-kallix.jpg" alt="거대한 마수에 맞서 쌍검을 든 검사 칼릭스" loading="lazy"></figure>
-      <p class="story-kicker">비하인드 스토리</p>
-      <h3 class="story-title">‘파천(破天)’ 칼릭스</h3>
-      <div class="story-body">
-        <p>칼릭스는 과거 아르카디아 대륙에서 칠성에 가장 가까웠던 검사로 알려진 인물이다.</p>
-        <p>압도적인 검술과 전투 감각으로 수많은 마수와 괴수를 토벌하며 이름을 떨쳤고, 사람들은 언젠가 그가 칠성이 될 것이라 믿었다.</p>
-        <p class="story-turn">하지만 현실은 달랐다.</p>
-        <p>그는 끝내 칠성의 벽을 넘지 못했고, 최종적으로 10클래스(X등급) 검사의 자리에 머물렀다.</p>
-        <p>자신의 한계를 받아들인 그는 모든 것을 내려놓고 가족과 함께 아르카디아 대륙을 떠나 네르가스 대륙 서부의 작은 변두리 마을에 정착했다.</p>
-        <p>어느 날 네르가스 대륙 중부와 서부의 경계에 위치한 도시로 향하는 귀족 호위 의뢰를 수행하던 중, 그 도시의 술집에서 마신 의문의 술로 인해 자신이 칠성이 되는 꿈을 꾸게 된다.</p>
-        <p>그 꿈을 잊지 못한 칼릭스는 점점 현실보다 환상에 집착하기 시작했고, 결국 집안의 모든 돈을 가지고 다시 그 도시로 떠났다.</p>
-        <p class="story-turn">그리고 그는 끝내 가족의 곁으로 돌아오지 않았다.</p>
-      </div>
-      <figure class="story-fig story-fig2"><img src="img/behind-hwanwol.jpg" alt="붉은 등불이 걸린 환월성의 거리" loading="lazy"></figure>
-      <p class="story-truth"><span class="ph">사실 그는,</span> <span class="ph">제5군주 루밀라가 지배하는</span> <span class="ph">환월성에 갇혀 있다.</span></p>
-    </article>
+    <div class="stories">
+      <button class="scard" type="button" data-story="kallix" aria-haspopup="dialog">
+        <span class="scard-img"><img src="img/behind-kallix.jpg" alt="" loading="lazy"></span>
+        <span class="scard-t"><span class="scard-k">비하인드 스토리</span><span class="scard-n">‘파천(破天)’ 칼릭스</span><span class="scard-more">이야기 보기</span></span>
+      </button>
+      <div class="scard scard-soon" aria-label="준비중인 스토리"><span class="soon-star" aria-hidden="true"></span><b>준비중</b><small>다음 이야기</small></div>
+    </div>
     <div class="divider" aria-hidden="true"></div>
     <section class="upcoming" aria-labelledby="upTitle">
       <h2 class="world-h" id="upTitle">업로드 예정</h2>
@@ -1145,7 +1178,7 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
   {
     const SEL = [".welcome", ".welcome-sub", ".welcome-vline", ".split-line", ".pro-title", ".pro-txt", ".pro-key",
       ".divider", ".world-h", ".world-sub", ".sub", ".lore", ".lore-fig", ".land", ".detail > .ico", ".detail > .region", ".detail > h2", ".detail > .han",
-      ".detail > .lead", ".rank-prose", ".cards .card", ".sins-desc", ".sin", ".chips", ".rg-h", ".rcard", ".plot", ".sin-god", ".realm-break", ".realm-head", ".story-fig", ".story-title", ".story-body p", ".story-truth", "footer"].join(",");
+      ".detail > .lead", ".rank-prose", ".cards .card", ".sins-desc", ".sin", ".chips", ".rg-h", ".rcard", ".plot", ".sin-god", ".realm-break", ".realm-head", ".scard", "footer"].join(",");
     const els = [...document.querySelectorAll(SEL)].filter(el => !el.closest(".cover, .signin, .lb"));
     const sibIndex = el => { const p = el.parentElement; if(!p) return 0; const kids = [...p.children].filter(k => k.matches(SEL)); return Math.max(0, kids.indexOf(el)); };
     els.forEach(el => { el.classList.add("rv"); const grid = el.matches(".card, .rcard, .plot, .land, .sin"); if(grid) el.style.setProperty("--rd", Math.min(sibIndex(el), 5) * 0.08 + "s"); });
@@ -1160,6 +1193,13 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
   document.getElementById("upList").innerHTML = UPCOMING.length
     ? UPCOMING.map(([t, d, when]) => `<article class="up-card"><span class="up-when">${esc(when || "공개 예정")}</span><h3>${esc(t)}</h3>${d ? `<p>${esc(d)}</p>` : ""}</article>`).join("")
     : `<div class="soon up-empty"><span class="soon-star" aria-hidden="true"></span><p>준비중</p><small>업로드 예정인 플롯이 곧 이곳에 공개됩니다.</small></div>`;
+
+  // ▼ 비하인드 스토리 열기
+  { const sv = document.getElementById("sv"); let from = null;
+    const close = () => { if(sv.hidden) return; sv.hidden = true; document.documentElement.classList.remove("locked-lb"); if(from) from.focus({preventScroll:true}); };
+    document.querySelectorAll(".scard[data-story]").forEach(b => b.addEventListener("click", () => { from = b; sv.hidden = false; sv.scrollTop = 0; document.documentElement.classList.add("locked-lb"); sv.querySelector(".sv-x").focus({preventScroll:true}); }));
+    sv.addEventListener("click", e => { if(e.target === sv || e.target.closest(".sv-x")) close(); });
+    addEventListener("keydown", e => { if(e.key === "Escape") close(); }); }
 
   // 별 배경
   {
