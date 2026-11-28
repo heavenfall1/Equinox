@@ -372,6 +372,13 @@ button.sin.sin-god:hover,button.sin.sin-god:focus-visible,button.sin.sin-god:act
 .soon-star{width:16px;height:16px;background:#f4ead0;clip-path:polygon(50% 0,60% 40%,100% 50%,60% 60%,50% 100%,40% 60%,0 50%,40% 40%);filter:drop-shadow(0 0 6px rgba(244,234,208,.8))}
 @media(prefers-reduced-motion:no-preference){.soon-star{animation:glim 3.2s ease-in-out infinite}}
 @media(max-width:600px){.tab .tk{font-size:14px;letter-spacing:0}.tabs{gap:0}}
+.upcoming{margin-bottom:40px}
+.up-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(240px,100%),1fr));gap:12px;max-width:760px;margin:0 auto}
+.up-list .up-empty{grid-column:1/-1;margin:0 auto;width:100%}
+.up-card{border:1px solid rgba(232,220,181,.3);border-radius:8px;padding:18px;text-align:center;background:linear-gradient(180deg,#14121b,#0c0b10)}
+.up-when{font-size:13px;color:var(--day)}
+.up-card h3{margin:6px 0 4px;font-size:18px;word-break:keep-all}
+.up-card p{margin:0;font-size:14.5px;color:#cfc9d8;word-break:keep-all}
 footer{text-align:center;color:var(--mute);font-size:13px;margin-top:64px}
 footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;margin-bottom:6px}
 @media(prefers-reduced-motion:no-preference){.detail:not([hidden]){animation:rise .45s ease}@keyframes rise{from{opacity:0;transform:translateY(10px)}}}
@@ -483,6 +490,11 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
   <div class="pane" id="behind" role="tabpanel" aria-labelledby="t-behind" hidden>
     <h2 class="world-h pane-h">비하인드</h2>
     <div class="soon"><span class="soon-star" aria-hidden="true"></span><p>준비중</p><small>곧 공개될 이야기를 기다려 주세요.</small></div>
+    <div class="divider" aria-hidden="true"></div>
+    <section class="upcoming" aria-labelledby="upTitle">
+      <h2 class="world-h" id="upTitle">업로드 예정</h2>
+      <div class="up-list" id="upList"></div>
+    </section>
   </div>
 
   <footer><span class="sig">Equinox</span>낮과 밤의 균형</footer>
@@ -1116,6 +1128,12 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
       els.forEach(el => io.observe(el));
     } else els.forEach(el => el.classList.add("in"));
   }
+
+  // ▼ 업로드 예정: [제목, 설명, 예정일] 형식으로 추가하면 카드가 늘어나요
+  const UPCOMING = [];
+  document.getElementById("upList").innerHTML = UPCOMING.length
+    ? UPCOMING.map(([t, d, when]) => `<article class="up-card"><span class="up-when">${esc(when || "공개 예정")}</span><h3>${esc(t)}</h3>${d ? `<p>${esc(d)}</p>` : ""}</article>`).join("")
+    : `<div class="soon up-empty"><span class="soon-star" aria-hidden="true"></span><p>준비중</p><small>업로드 예정인 플롯이 곧 이곳에 공개됩니다.</small></div>`;
 
   // 별 배경
   {
