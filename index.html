@@ -322,11 +322,15 @@ img,canvas,.cover-bg{-webkit-user-drag:none;user-drag:none;-webkit-touch-callout
   .rv.in{opacity:1;translate:0 0}
 }
 .sin-lead-wrap{display:flex;justify-content:center;margin:0 0 14px}
-.sin.sin-lead{flex:0 0 calc(25% - 9px);min-width:170px;border:1px solid rgba(232,220,181,.55);background:radial-gradient(70% 55% at 50% 35%,rgba(232,220,181,.16),transparent 70%),#0f0d12;box-shadow:0 0 26px rgba(232,220,181,.18)}
-.sin.sin-lead .sin-t{color:#e8dcb5}
-.sin.sin-lead b{color:#f6ecd0;letter-spacing:.12em}
+.sin.sin-god{flex:0 0 calc(25% - 9px);min-width:170px;border:1px solid rgba(232,220,181,.7);background:radial-gradient(70% 55% at 50% 35%,rgba(232,220,181,.22),transparent 70%),#100e13;box-shadow:0 0 34px rgba(232,220,181,.25)}
+.sin.sin-god .sin-t{color:#e8dcb5}
+.sin.sin-god b{color:#fff6dc;letter-spacing:.12em}
+.sin.sin-god small{color:#bfb6a0}
+.sin-link{width:1px;height:28px;margin:-14px auto 0;background:linear-gradient(rgba(232,220,181,.6),rgba(205,182,230,.5))}
+.sin.sin-lead{flex:0 0 calc(25% - 9px);min-width:170px;border:1px solid rgba(205,182,230,.45);background:radial-gradient(70% 55% at 50% 35%,rgba(176,138,208,.16),transparent 70%),#0e0c13;box-shadow:0 0 22px rgba(176,138,208,.15)}
+.sin.sin-lead .sin-t{color:#d8c6ee}
 .sin-lead-wrap::after{content:"";display:none}
-@media(max-width:600px){.sin.sin-lead{flex-basis:calc(50% - 6px)}}
+@media(max-width:600px){.sin.sin-lead,.sin.sin-god{flex-basis:calc(50% - 6px)}}
 footer{text-align:center;color:var(--mute);font-size:13px;margin-top:64px}
 footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;margin-bottom:6px}
 @media(prefers-reduced-motion:no-preference){.detail:not([hidden]){animation:rise .45s ease}@keyframes rise{from{opacity:0;transform:translateY(10px)}}}
@@ -398,7 +402,9 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
     <h2 id="sinsTitle" class="world-h">칠죄종<span class="han-h">七罪宗</span></h2>
     <p class="sub">루타비스가 선택한 7명의 집행관</p>
     <div class="sins-desc"><p>칠죄종(七罪宗)은 루타비스의 선택을 받아 탄생한 7명의 심판관이자 집행관이다. 이들은 세상에서 7가지 근원적 죄악을 저지른 자들을 색출하고, 그 죄의 무게를 심판하여 직접 형벌을 집행한다.</p><p>그러나 이들은 단순히 죄를 벌하는 자들이 아니다. 역설적으로 자신이 맡은 죄악의 권능을 다루거나, 그 본질을 꿰뚫어 보는 능력을 지니고 있다.</p></div>
-    <div class="sin-lead-wrap"><div class="sin sin-lead"><span class="sin-t">칠죄종의 총수</span><b>루타비스</b><small>창조신</small></div></div>
+    <div class="sin-lead-wrap"><div class="sin sin-god"><span class="sin-t">창조신</span><b>루타비스</b><small>칠죄종을 선택한 자</small></div></div>
+    <div class="sin-link" aria-hidden="true"></div>
+    <div class="sin-lead-wrap"><div class="sin sin-lead"><span class="sin-t">칠죄종의 총수</span><b>미공개</b></div></div>
     <div class="sins" id="sins"></div>
   </section>
 
