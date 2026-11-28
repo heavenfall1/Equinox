@@ -60,10 +60,28 @@ main{position:relative;max-width:880px;margin:0 auto;padding:0 max(5vw,16px) 80p
 .por img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 15%;transition:transform .5s}
 .por:hover img{transform:scale(1.04)}
 .por:focus-visible{outline:2px solid var(--night);outline-offset:-2px}
-.lb{position:fixed;inset:0;z-index:10;background:rgba(5,4,8,.92);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:20px;cursor:zoom-out}
+.lb{position:fixed;inset:0;z-index:40;background:rgba(5,4,8,.9);display:flex;align-items:center;justify-content:center;padding:clamp(12px,3vw,32px);backdrop-filter:blur(4px)}
 .lb[hidden]{display:none}
-.lb img{max-width:100%;max-height:calc(100vh - 90px);border-radius:4px;box-shadow:0 20px 60px rgba(0,0,0,.6)}
-.lb p{margin:0;font-size:17px}
+.lb-box{position:relative;display:grid;grid-template-columns:minmax(0,1fr);width:min(100%,520px);max-height:100%;overflow:auto;background:linear-gradient(180deg,#14121b,#0c0b10);border:1px solid var(--line);border-radius:10px;box-shadow:0 30px 80px rgba(0,0,0,.7)}
+.lb-box.wide{width:min(100%,980px);grid-template-columns:minmax(0,5fr) minmax(0,6fr)}
+.lb-pic{background:#000}
+.lb-pic img{display:block;width:100%;height:100%;max-height:82vh;object-fit:cover;object-position:50% 20%}
+.lb-txt{padding:clamp(20px,3vw,34px)}
+.lb-box:not(.wide) .lb-txt{text-align:center;padding:16px}
+.lb-pos{margin:0;font-size:13px;color:var(--day)}
+.lb h3{margin:4px 0 2px;font-size:clamp(24px,3.4vw,30px);line-height:1.15}
+.lb-epi{margin:0 0 18px;color:#d8d3de;font-size:15px}
+.lb-epi:empty{display:none}
+.lb-bio p{margin:0 0 1em;font-size:16px;line-height:1.85;word-break:keep-all}
+.lb-bio blockquote{margin:6px 0 18px;padding:12px 16px;border-left:2px solid #e8dcb5;background:rgba(232,220,181,.06);color:#f4efe4;font-size:16px;line-height:1.7;word-break:keep-all}
+.lb-x{position:absolute;top:8px;right:8px;z-index:2;width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.25);background:rgba(10,9,14,.7);color:#fff;font-size:24px;line-height:1;cursor:pointer}
+.lb-x:focus-visible{outline:2px solid #e8dcb5;outline-offset:2px}
+.locked-lb{overflow:hidden}
+.card.has-bio .por::after{content:"설명 보기";position:absolute;right:8px;bottom:8px;padding:3px 9px;border-radius:999px;background:rgba(10,9,14,.72);border:1px solid rgba(232,220,181,.4);color:#e8dcb5;font-size:12px}
+.card .por{position:relative}
+@media(min-width:761px){.lb-box.wide{height:min(86vh,760px);overflow:hidden}.lb-box.wide .lb-pic img{max-height:none}.lb-box.wide .lb-txt{overflow:auto}}
+@media(max-width:760px){.lb-box.wide{grid-template-columns:minmax(0,1fr);width:min(100%,560px)}.lb-pic img{max-height:56vh}.lb{align-items:flex-start}}
+@media(max-width:600px){.card.has-bio .por::after{font-size:11px;padding:2px 7px;right:5px;bottom:5px}}
 .card.sealed{border-style:dashed;opacity:.55}
 .card.sealed h3{letter-spacing:.2em}
 .region{text-align:center;margin:0 0 6px;font-size:14px;color:var(--day)}
@@ -207,6 +225,7 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
 </head>
 <body>
 <div class="bgmbar" id="bgmbar"><button class="bgm" id="bgm" type="button" aria-label="배경음악 켜기" aria-pressed="false"><svg class="on" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="currentColor"/><path d="M15.5 8.8a4.5 4.5 0 0 1 0 6.4M18 6.3a8 8 0 0 1 0 11.4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><svg class="off" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="currentColor"/><path d="M16 9.5l5 5M21 9.5l-5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span class="bars" aria-hidden="true"><i></i><i></i><i></i></span></button><input class="vol" id="vol" type="range" min="0" max="100" step="1" value="50" aria-label="음악 소리 크기"><span class="volv" id="volv" aria-hidden="true">50</span></div>
+<div class="lb" id="lb" hidden role="dialog" aria-modal="true" aria-labelledby="lbName"><div class="lb-box"><button class="lb-x" id="lbX" type="button" aria-label="닫기">×</button><div class="lb-pic"><img id="lbImg" alt=""></div><div class="lb-txt"><p class="lb-pos" id="lbPos"></p><h3 id="lbName"></h3><p class="lb-epi" id="lbEpi"></p><div class="lb-bio" id="lbBio"></div></div></div></div>
 <p class="tapnote" id="tapnote">화면을 터치하면 노래가 시작됩니다</p>
 <audio id="bgmAudio" src="bgm.mp3" loop preload="auto" playsinline></audio>
 <div class="signin" id="sig" aria-hidden="true"><div class="sig-w"><canvas id="sigCv"></canvas></div></div>
@@ -229,7 +248,6 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
 
   <p class="welcome"><b><span class="d">낮</span>과 <span class="n">밤</span>의 균형</b>, 이퀴녹스에 오신 것을 환영합니다.</p>
   <p class="welcome-sub">현실과 환상이 맞닿은 경계에서, 당신의 선택으로 완성되는 깊이 있는 서사로 당신을 초대합니다.</p>
-  <div class="lb" id="lb" hidden role="dialog" aria-label="이미지 크게 보기"><img id="lbImg" alt=""><p id="lbName"></p></div>
 
 
   <section class="world" aria-labelledby="worldTitle">
@@ -319,10 +337,58 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
   ranksEl.innerHTML = RANKS.map(r => `<section class="detail" id="${r.id}"><svg class="ico big ico-${r.icon}" viewBox="0 0 24 24" aria-hidden="true">${ICONS[r.icon] || ""}</svg><p class="region">${esc(r.region)}</p><h2>${esc(r.name)}</h2><p class="han">${esc(r.han)} · ${r.members.length ? "총 " + r.members.length + "인" : "인물 미공개"}</p><p class="lead">${esc(r.lead)}</p>${r.body ? `<div class="prose rank-prose">${r.body.map(t => t.startsWith("## ") ? `<h3 class="sub-h">${esc(t.slice(3))}</h3>` : `<p>${esc(t)}</p>`).join("")}</div>` : ""}
       ${r.members.length ? "" : `<p class="empty">아직 공개된 인물이 없습니다.</p>`}${rowsHtml(r, ([pos,epi,name,img],i) => `<article class="card${name === "미공개" ? " sealed" : ""}${img ? " has-img" : ""}">${img ? `<button class="por" type="button" data-src="${esc(img)}" data-name="${esc(name)}" aria-label="${esc(name)} 이미지 크게 보기"><img src="${esc(img)}" alt="${esc(name)}" loading="lazy"></button>` : ""}<p class="pos">${esc(pos)}</p><h3>${esc(name)}</h3>${epi ? `<p class="title">‘${esc(epi)}’</p>` : ""}</article>`)}</section>`).join("");
 
-  const lb = document.getElementById("lb"), lbImg = document.getElementById("lbImg"), lbName = document.getElementById("lbName");
-  ranksEl.addEventListener("click", e => { const b = e.target.closest(".por"); if(!b) return; lbImg.src = b.dataset.src; lbImg.alt = b.dataset.name; lbName.textContent = b.dataset.name; lb.hidden = false; });
-  lb.addEventListener("click", () => { lb.hidden = true; });
-  addEventListener("keydown", e => { if(e.key === "Escape") lb.hidden = true; });
+  // ▼ 인물 설명: 이름을 키로 문단을 넣으면 카드에 '설명 보기'가 붙어요 ("> "로 시작하면 인용구)
+  const BIO = {
+ "신시아": [
+  "신시아는 아르카디아에 존재하는 그 어떤 강자와도 비교하기 어려운 초월적인 존재다. 그녀가 언제, 어디에서 나타났는지는 아무도 모르며, 누군가에 의해 이 세상에 나타난 존재라는 사실만이 알려져 있다.",
+  "그녀는 다른 칠성처럼 오랜 전투와 업적을 통해 자신의 강함을 증명한 것이 아니다. 그녀의 힘은 싸움을 시작하기도 전에 상대가 느낄 수 있을 정도로 압도적이었다.",
+  "강자들조차 신시아를 마주하면 본능적으로 자신과는 격이 다른 존재임을 깨달았으며, 사람들은 그녀를 인간이라기보다 신에 가까운 존재로 여겼다.",
+  "특히 마족 대침공 당시 그 강함이 다시 한번 증명되었다. 당시 마족 사대군단장 제1군단장으로 오랜 세월 군림한 강자가 신시아와 맞붙었지만, 전투는 길게 이어지지 않았다. 신시아는 압도적인 힘으로 제1군단장을 순식간에 제압했다.",
+  "그녀가 우산을 펼치면 전장에 비가 내리기 시작했고, 그 모습을 본 사람들은 이렇게 말했다.",
+  "> 그녀가 우산을 펼치고 비가 내리기 시작하면, 그 전장의 승패는 이미 결정된 것이다.",
+  "때문에 신시아는 아르카디아 최강자인 것을 넘어, 세 대륙을 통틀어 3대 초월 마법사와 대적할 수 있는 유일한 존재로 평가받는다."
+ ],
+ "피노르": [
+  "피노르는 아르카디아 대륙 북부의 작은 마을에서 장의사 부모 밑에서 태어나, 어린 시절부터 망자들을 인도하는 일을 도왔다.",
+  "그러던 어느 날 한 망자와 접촉한 것을 계기로 정체불명의 강대한 힘을 얻게 되었고, 이후 향과 연기를 촉매로 환각과 중력장을 만들어내는 결계 마법을 사용할 수 있게 되었다.",
+  "피노르는 장의사의 삶을 떠나 사람들을 지키는 마법사가 되기로 결심했고, 괴수들을 압도적인 마법으로 제압하며 빠르게 이름을 알렸다.",
+  "허공에 피어오르는 연기가 몽환적인 불꽃처럼 보인다는 의미에서 「환화(幻火)」라는 이명을 얻었으며, 결국 칠성 제5성의 자리에 오르게 되었다."
+ ],
+ "노아": [
+  "노아는 네르가스 대륙의 작은 마을에서 태어난 평범한 아이였다.",
+  "어린 시절 어느 날, 정체불명의 힘에 이끌려 새하얀 공간으로 사라졌고 그곳에서 수년의 세월을 홀로 보내게 되었다. 시간의 흐름조차 알 수 없는 공간에서 오랜 시간을 보낸 끝에, 성인이 된 순간 마치 봉인이 풀리듯 현실 세계로 돌아왔다.",
+  "그리고 현실로 돌아온 노아에게는 시간을 되돌릴 수 있는 초월적인 마력이 깃들어 있었다. 백색의 공간에서 돌아온 노아는 자신의 힘을 시험하며 시간을 되돌리는 초월 마법을 익혀갔다.",
+  "그녀의 힘이 알려지면서 네르가스 대륙의 강자들은 노아를 경계하기 시작했고, 노아는 사람들과 거리를 두고 대륙 북부의 외딴 곳에 자리를 잡았다.",
+  "이후 소중한 사람을 잃은 이들이 그녀를 찾아오기 시작했고, 노아는 그들의 간절한 부탁을 받아 대가를 조건으로 잃어버린 시간을 되돌려주었다.",
+  "시간이 흐르면서 노아는 네르가스 대륙 곳곳을 돌아다니며 자신이 눈여겨본 사람들에게 새로운 삶의 기회를 주기 시작했고, 그렇게 그녀는 「영원지평」이라는 이름으로 알려지게 되었다."
+ ],
+ "벨호른": [
+  "약육강식의 네르가스 대륙에서 가장 오래 제1군주의 자리를 지켜온 강자.",
+  "30세에 당시 사대 군주들을 차례대로 쓰러뜨리며 제1군주이자 유일무이한 군주로 군림하기 시작했다.",
+  "압도적인 방어력과 육체 능력을 지녔으며, 아무리 강한 공격을 받아도 쉽게 무너지지 않아 '철옹성'이라 불린다.",
+  "오만하고 거친 성격이지만, 자신의 강함을 인정할 가치가 있는 상대에게는 확실한 존중을 보인다.",
+  "과거의 사대 군주들과 달리 새로운 군주들의 강함을 인정하며 현재의 오대 군주 체계를 받아들였다."
+ ]
+};
+  const lb = document.getElementById("lb"), lbBox = lb.querySelector(".lb-box"), lbImg = document.getElementById("lbImg"), lbName = document.getElementById("lbName");
+  const lbPos = document.getElementById("lbPos"), lbEpi = document.getElementById("lbEpi"), lbBio = document.getElementById("lbBio");
+  const MEMBER = {}; RANKS.forEach(r => r.members.forEach(([pos, epi, name]) => { MEMBER[name] = {pos, epi}; }));
+  ranksEl.querySelectorAll(".card").forEach(c => { const n = c.querySelector("h3")?.textContent; if(n && BIO[n]) c.classList.add("has-bio"); });
+  let lbFrom = null;
+  const closeLb = () => { if(lb.hidden) return; lb.hidden = true; document.documentElement.classList.remove("locked-lb"); if(lbFrom) lbFrom.focus({preventScroll:true}); };
+  ranksEl.addEventListener("click", e => {
+    const b = e.target.closest(".por"); if(!b) return;
+    const name = b.dataset.name, m = MEMBER[name] || {}, bio = BIO[name];
+    lbFrom = b;
+    lbImg.src = b.dataset.src; lbImg.alt = name;
+    lbName.textContent = name; lbPos.textContent = m.pos || ""; lbEpi.textContent = m.epi ? `‘${m.epi}’` : "";
+    lbBio.innerHTML = bio ? bio.map(t => t.startsWith("> ") ? `<blockquote>“${esc(t.slice(2))}”</blockquote>` : `<p>${esc(t)}</p>`).join("") : "";
+    lbBox.classList.toggle("wide", !!bio);
+    lb.hidden = false; lbBox.scrollTop = 0; document.documentElement.classList.add("locked-lb");
+    document.getElementById("lbX").focus({preventScroll:true});
+  });
+  lb.addEventListener("click", e => { if(e.target === lb || e.target.closest(".lb-x")) closeLb(); else if(!lbBox.classList.contains("wide")) closeLb(); });
+  addEventListener("keydown", e => { if(e.key === "Escape") closeLb(); });
   // ▼ 세계관 항목: 아래 배열에 같은 형식으로 추가하면 섹션이 늘어납니다
   const LORE = [
     {kicker:"세계의 창조자", name:"창조신 루타비스", img:"img/world-tree.jpg", imgCap:"루타비스가 존재한다고 전해지는 미지의 공간, 세계수", epi:"유일무이한 창조자이자 절대신",
