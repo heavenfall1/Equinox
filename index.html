@@ -171,8 +171,18 @@ a.plot{cursor:pointer}
 .plot .tags{margin:0;font-size:14px;color:#8d8b96;white-space:nowrap;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,#000 85%,transparent);mask-image:linear-gradient(90deg,#000 85%,transparent)}
 @media(max-width:720px){.plots{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.plot h3{font-size:15px}.plot .pdesc,.plot .tags{font-size:13px}.plot .pbody{padding:10px 11px 12px}}
 img,canvas,.cover-bg{-webkit-user-drag:none;user-drag:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
-.bgm{position:fixed;right:max(16px,env(safe-area-inset-right));bottom:max(16px,env(safe-area-inset-bottom));z-index:25;width:48px;height:48px;border-radius:50%;border:1px solid rgba(232,220,181,.45);background:rgba(10,9,14,.72);color:#e8dcb5;display:flex;align-items:center;justify-content:center;cursor:pointer;backdrop-filter:blur(6px);box-shadow:0 6px 20px rgba(0,0,0,.5);transition:border-color .25s,transform .25s}
+.bgmbar{position:fixed;right:max(16px,env(safe-area-inset-right));bottom:max(16px,env(safe-area-inset-bottom));z-index:25;display:flex;align-items:center;gap:8px;padding:4px 14px 4px 4px;border-radius:999px;background:rgba(10,9,14,.72);border:1px solid rgba(232,220,181,.3);backdrop-filter:blur(6px);box-shadow:0 6px 20px rgba(0,0,0,.5)}
+.vol{-webkit-appearance:none;appearance:none;width:96px;height:28px;background:transparent;cursor:pointer;margin:0}
+.vol::-webkit-slider-runnable-track{height:4px;border-radius:4px;background:linear-gradient(90deg,#e8dcb5 var(--p,50%),rgba(232,220,181,.22) var(--p,50%))}
+.vol::-moz-range-track{height:4px;border-radius:4px;background:rgba(232,220,181,.22)}
+.vol::-moz-range-progress{height:4px;border-radius:4px;background:#e8dcb5}
+.vol::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;margin-top:-6px;border-radius:50%;background:#f4efe4;border:2px solid #0a090e;box-shadow:0 0 0 1px #e8dcb5}
+.vol::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:#f4efe4;border:2px solid #0a090e}
+.vol:focus-visible{outline:2px solid #e8dcb5;outline-offset:2px;border-radius:6px}
+.volv{min-width:2.2em;text-align:right;font-size:13px;color:#e8dcb5;font-variant-numeric:tabular-nums}
+.bgm{position:static;width:48px;height:48px;border-radius:50%;border:1px solid rgba(232,220,181,.45);background:rgba(10,9,14,.72);color:#e8dcb5;display:flex;align-items:center;justify-content:center;cursor:pointer;backdrop-filter:blur(6px);box-shadow:0 6px 20px rgba(0,0,0,.5);transition:border-color .25s,transform .25s}
 .bgm:hover{transform:scale(1.06);border-color:#e8dcb5}
+.bgm{box-shadow:none !important;backdrop-filter:none !important;width:44px !important;height:44px !important}
 .bgm:focus-visible{outline:2px solid #e8dcb5;outline-offset:3px}
 .bgm svg{width:22px;height:22px}
 .bgm .on,.bgm .bars{display:none}
@@ -185,6 +195,7 @@ img,canvas,.cover-bg{-webkit-user-drag:none;user-drag:none;-webkit-touch-callout
 .tapnote.hide{opacity:0}
 .stars{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
 .welcome-sub{text-align:center;max-width:44ch;margin:0 auto 8px;font-size:clamp(15px,2vw,17px);line-height:1.75;color:#cfcbd8;word-break:keep-all;text-wrap:balance}
+@media(max-width:600px){.cover-ui{bottom:calc(84px + env(safe-area-inset-bottom))}.vol{width:80px}}
 footer{text-align:center;color:var(--mute);font-size:13px;margin-top:64px}
 footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;margin-bottom:6px}
 @media(prefers-reduced-motion:no-preference){.detail:not([hidden]){animation:rise .45s ease}@keyframes rise{from{opacity:0;transform:translateY(10px)}}}
@@ -192,7 +203,7 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
 </style>
 </head>
 <body>
-<button class="bgm" id="bgm" type="button" aria-label="배경음악 켜기" aria-pressed="false"><svg class="on" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="currentColor"/><path d="M15.5 8.8a4.5 4.5 0 0 1 0 6.4M18 6.3a8 8 0 0 1 0 11.4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><svg class="off" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="currentColor"/><path d="M16 9.5l5 5M21 9.5l-5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span class="bars" aria-hidden="true"><i></i><i></i><i></i></span></button>
+<div class="bgmbar" id="bgmbar"><button class="bgm" id="bgm" type="button" aria-label="배경음악 켜기" aria-pressed="false"><svg class="on" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="currentColor"/><path d="M15.5 8.8a4.5 4.5 0 0 1 0 6.4M18 6.3a8 8 0 0 1 0 11.4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><svg class="off" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="currentColor"/><path d="M16 9.5l5 5M21 9.5l-5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span class="bars" aria-hidden="true"><i></i><i></i><i></i></span></button><input class="vol" id="vol" type="range" min="0" max="100" step="1" value="50" aria-label="음악 소리 크기"><span class="volv" id="volv" aria-hidden="true">50</span></div>
 <p class="tapnote" id="tapnote">화면을 터치하면 노래가 시작됩니다</p>
 <audio id="bgmAudio" src="bgm.mp3" loop preload="auto" playsinline></audio>
 <div class="signin" id="sig" aria-hidden="true"><div class="sig-w"><canvas id="sigCv"></canvas></div></div>
@@ -475,28 +486,53 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
   scrollTo(0, 0);
   addEventListener("pageshow", e => { if(e.persisted) scrollTo(0, 0); });
 
-  // 배경음악 (bgm.mp3)
+  // 배경음악 (bgm.mp3) — 아이폰은 audio.volume을 무시해서, 소리 크기는 Web Audio로 조절해요
   const bgmBtn = document.getElementById("bgm"), au = document.getElementById("bgmAudio");
-  au.volume = 0.5;
+  const volEl = document.getElementById("vol"), volV = document.getElementById("volv");
+  let vol = 50;
+  try { const sv = localStorage.getItem("eq-vol"); if(sv !== null && !isNaN(+sv)) vol = Math.max(0, Math.min(100, +sv)); } catch(_){}
+  let ctx = null, gain = null;
+  const ensureGraph = () => {
+    if(ctx) return;
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if(!AC) return;
+    try { ctx = new AC(); const src = ctx.createMediaElementSource(au); gain = ctx.createGain(); src.connect(gain).connect(ctx.destination); } catch(_){ ctx = null; gain = null; }
+  };
+  const applyVol = () => {
+    const g = (vol / 100) ** 1.6;
+    if(gain) gain.gain.value = g; else au.volume = vol / 100;
+    volEl.value = vol; volV.textContent = vol; volEl.style.setProperty("--p", vol + "%");
+  };
+  au.volume = 1;
   let userOff = false, soundOn = false, started = false;
   const setBtn = on => { bgmBtn.setAttribute("aria-pressed", String(on)); bgmBtn.setAttribute("aria-label", on ? "배경음악 끄기" : "배경음악 켜기"); };
   const tapnote = document.getElementById("tapnote");
   const hideNote = () => tapnote.classList.add("hide");
   const done = () => { soundOn = true; hideNote(); ["click","touchend","keydown"].forEach(t => removeEventListener(t, tryStart, true)); };
   const play = () => {
+    ensureGraph(); applyVol();
     if(!started){ try { au.currentTime = 0; } catch(_){} }
-    au.volume = 0.5;
-    const pr = au.play();
-    if(pr && pr.then) pr.then(() => { started = true; setBtn(true); done(); }, () => setBtn(false));
-    else { started = true; setBtn(true); done(); }
+    const go = () => {
+      const pr = au.play();
+      const ok = () => { if(!ctx || ctx.state === "running"){ started = true; setBtn(true); done(); } else { au.pause(); setBtn(false); } };
+      if(pr && pr.then) pr.then(ok, () => setBtn(false)); else ok();
+    };
+    if(ctx && ctx.state !== "running") ctx.resume().then(go, go); else go();
   };
   const stop = () => { au.pause(); setBtn(false); };
   au.addEventListener("pause", () => setBtn(false));
   au.addEventListener("play", () => setBtn(true));
   bgmBtn.addEventListener("click", e => { e.stopPropagation(); if(!au.paused){ userOff = true; stop(); } else { userOff = false; play(); } });
+  ["click","touchend","pointerdown"].forEach(t => volEl.addEventListener(t, e => e.stopPropagation()));
+  volEl.addEventListener("input", () => {
+    vol = +volEl.value; applyVol();
+    try { localStorage.setItem("eq-vol", String(vol)); } catch(_){}
+    if(au.paused && !userOff && vol > 0) play();
+  });
+  applyVol();
   // 열자마자 재생을 먼저 시도하고, 브라우저가 막으면 첫 터치(손가락을 뗄 때)·클릭 때 처음부터 재생해요
   const tryStart = e => {
-    if(soundOn || userOff || (e.target && e.target.closest && e.target.closest("#bgm"))) return;
+    if(soundOn || userOff || (e.target && e.target.closest && e.target.closest("#bgmbar"))) return;
     play();
   };
   ["click","touchend","keydown"].forEach(t => addEventListener(t, tryStart, true));
