@@ -184,21 +184,17 @@ img,canvas,.cover-bg{-webkit-user-drag:none;user-drag:none;-webkit-touch-callout
 .tapnote{position:fixed;top:max(14px,env(safe-area-inset-top));left:50%;transform:translateX(-50%);z-index:31;margin:0;padding:7px 16px;border-radius:999px;background:rgba(10,9,14,.6);border:1px solid rgba(232,220,181,.3);color:#e8dcb5;font-size:13px;white-space:nowrap;pointer-events:none;backdrop-filter:blur(4px);transition:opacity .6s ease}
 .tapnote.hide{opacity:0}
 .stars{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
-.ytbox{position:fixed;left:0;bottom:0;width:2px;height:2px;overflow:hidden;opacity:.01;pointer-events:none;z-index:0}
-.ytbox iframe{width:2px;height:2px}
 .welcome-sub{text-align:center;max-width:44ch;margin:0 auto 8px;font-size:clamp(15px,2vw,17px);line-height:1.75;color:#cfcbd8;word-break:keep-all;text-wrap:balance}
 footer{text-align:center;color:var(--mute);font-size:13px;margin-top:64px}
 footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;margin-bottom:6px}
 @media(prefers-reduced-motion:no-preference){.detail:not([hidden]){animation:rise .45s ease}@keyframes rise{from{opacity:0;transform:translateY(10px)}}}
 @media(max-width:600px){.tier{gap:10px}.rank{flex-basis:calc(50% - 5px);max-width:none}.rank.top{flex-basis:100%}}
 </style>
-<link rel="preconnect" href="https://www.youtube.com"><link rel="preconnect" href="https://i.ytimg.com">
-<script src="https://www.youtube.com/iframe_api" id="ytApi" async></script>
 </head>
 <body>
 <button class="bgm" id="bgm" type="button" aria-label="배경음악 켜기" aria-pressed="false"><svg class="on" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="currentColor"/><path d="M15.5 8.8a4.5 4.5 0 0 1 0 6.4M18 6.3a8 8 0 0 1 0 11.4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><svg class="off" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="currentColor"/><path d="M16 9.5l5 5M21 9.5l-5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span class="bars" aria-hidden="true"><i></i><i></i><i></i></span></button>
 <p class="tapnote" id="tapnote">화면을 터치하면 노래가 시작됩니다</p>
-<div class="ytbox" aria-hidden="true"><div id="ytPlayer"></div></div>
+<audio id="bgmAudio" src="bgm.mp3" loop preload="auto" playsinline></audio>
 <div class="signin" id="sig" aria-hidden="true"><div class="sig-w"><canvas id="sigCv"></canvas></div></div>
 <div class="cover" id="cover" aria-hidden="true">
   <div class="cover-bg" style="background-image:url(cover4.jpg)"></div>
@@ -259,7 +255,7 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
   // ▼ 여기만 고치면 사이트 내용이 바뀝니다 (tier: 같은 숫자끼리 한 줄)
   // 인물: [자리, 이명, 이름]  — 이름이 "미공개"면 흐리게 표시
   const RANKS = [
-    {id:"transcend", rows:[3], icon:"magic", name:"3대 초월마법사", han:"三大 超越 魔法師", tier:1, top:true, region:"세계관 정점",
+    {id:"transcend", rows:[3], icon:"magic", name:"3대 초월마법사", han:"三大 超越 魔法師", tier:1, top:true, region:"대륙별 최강 마법사",
       lead:"아르카디아, 네르가스, 루미엘 각 대륙에서 명실상부하게 가장 강한 마법사 3명을 일컫는 말이다.",
       members:[["아르카디아","절대영도(絕對零度)","발레리아","img/valeria.jpg"],["네르가스","영원지평(永遠地平)","노아","img/noah.jpg"],["루미엘","백색의 마에스트로","오펠리아","img/ophelia.jpg"]]},
     {id:"seven-stars", rows:[1,3,3], icon:"star", name:"칠성", han:"七星", tier:2, region:"아르카디아 대륙 최강자",
@@ -479,51 +475,32 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
   scrollTo(0, 0);
   addEventListener("pageshow", e => { if(e.persisted) scrollTo(0, 0); });
 
-  // 배경음악 (유튜브)
-  const BGM_ID = "XvnqRhT3I1c";
-  const bgmBtn = document.getElementById("bgm");
-  let yt = null, ytReady = false, wantPlay = true, userOff = false, mutedStart = false;
+  // 배경음악 (bgm.mp3)
+  const bgmBtn = document.getElementById("bgm"), au = document.getElementById("bgmAudio");
+  au.volume = 0.5;
+  let userOff = false, soundOn = false, started = false;
   const setBtn = on => { bgmBtn.setAttribute("aria-pressed", String(on)); bgmBtn.setAttribute("aria-label", on ? "배경음악 끄기" : "배경음악 켜기"); };
-  const loadYT = () => {
-    if(window.YT && YT.Player){ makePlayer(); return; }
-    if(document.getElementById("ytApi")){ return; }
-    const sc = document.createElement("script"); sc.id = "ytApi"; sc.src = "https://www.youtube.com/iframe_api";
-    sc.onerror = () => setBtn(false);
-    document.head.appendChild(sc);
-  };
-  const makePlayer = () => {
-    if(yt) return;
-    yt = new YT.Player("ytPlayer", { width: 2, height: 2, videoId: BGM_ID,
-      playerVars: { autoplay: 1, mute: 0, controls: 0, loop: 1, playlist: BGM_ID, playsinline: 1, rel: 0 },
-      events: {
-        onReady: () => { ytReady = true; try { yt.setVolume(50); yt.unMute(); } catch(e){}
-          if(!wantPlay) return;
-          yt.playVideo();
-          // 소리 있는 자동 재생이 막히면, 소리 끈 채로 먼저 틀고 첫 터치 때 소리를 켜요
-          setTimeout(() => { if(wantPlay && yt.getPlayerState() !== 1){ mutedStart = true; yt.mute(); yt.playVideo(); } }, 400);
-        },
-        onStateChange: e => { if(e.data === 1){ setBtn(true); try { if(!yt.isMuted()) done(); } catch(_){} } else if(e.data === 2) setBtn(false); else if(e.data === 0){ yt.seekTo(0); yt.playVideo(); } },
-        onError: () => setBtn(false)
-      } });
-  };
-  window.onYouTubeIframeAPIReady = makePlayer;
-  if(window.YT && YT.Player) makePlayer();
-  const play = () => { wantPlay = true; setBtn(true); if(ytReady){ if(mutedStart){ yt.seekTo(0, true); } yt.unMute(); yt.setVolume(50); mutedStart = false; yt.playVideo(); setTimeout(() => { try { if(yt.getPlayerState() === 1 && !yt.isMuted()) done(); } catch(_){} }, 600); } else loadYT(); };
-  const stop = () => { wantPlay = false; setBtn(false); if(ytReady) yt.pauseVideo(); };
-  bgmBtn.addEventListener("click", e => { e.stopPropagation(); if(bgmBtn.getAttribute("aria-pressed") === "true"){ userOff = true; stop(); } else { userOff = false; play(); } });
-  // 첫 터치·클릭 때 자동으로 시작 (브라우저가 그 전 자동 재생은 막아요)
   const tapnote = document.getElementById("tapnote");
   const hideNote = () => tapnote.classList.add("hide");
-  // 모바일은 손가락을 뗄 때(터치 끝·클릭)만 소리 재생을 허락해서, 그 순간에 맞춰 재생해요.
-  // 스크롤처럼 허락이 안 되는 터치도 있으니 실제로 소리가 날 때까지 계속 기다려요.
-  let soundOn = false;
+  const done = () => { soundOn = true; hideNote(); ["click","touchend","keydown"].forEach(t => removeEventListener(t, tryStart, true)); };
+  const play = () => {
+    if(!started){ try { au.currentTime = 0; } catch(_){} }
+    au.volume = 0.5;
+    const pr = au.play();
+    if(pr && pr.then) pr.then(() => { started = true; setBtn(true); done(); }, () => setBtn(false));
+    else { started = true; setBtn(true); done(); }
+  };
+  const stop = () => { au.pause(); setBtn(false); };
+  au.addEventListener("pause", () => setBtn(false));
+  au.addEventListener("play", () => setBtn(true));
+  bgmBtn.addEventListener("click", e => { e.stopPropagation(); if(!au.paused){ userOff = true; stop(); } else { userOff = false; play(); } });
+  // 열자마자 재생을 먼저 시도하고, 브라우저가 막으면 첫 터치(손가락을 뗄 때)·클릭 때 처음부터 재생해요
   const tryStart = e => {
     if(soundOn || userOff || (e.target && e.target.closest && e.target.closest("#bgm"))) return;
     play();
   };
-  const done = () => { soundOn = true; hideNote(); ["click","touchend","keydown"].forEach(t => removeEventListener(t, tryStart, true)); };
   ["click","touchend","keydown"].forEach(t => addEventListener(t, tryStart, true));
-  loadYT();
+  play();
 
   // 별 배경
   {
