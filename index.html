@@ -373,9 +373,13 @@ button.sin.sin-god:hover,button.sin.sin-god:focus-visible,button.sin.sin-god:act
 @media(prefers-reduced-motion:no-preference){.soon-star{animation:glim 3.2s ease-in-out infinite}}
 @media(max-width:600px){.tab .tk{font-size:14px;letter-spacing:0}.tabs{gap:0}}
 .upcoming{margin-bottom:40px}
-.up-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(240px,100%),1fr));gap:12px;max-width:760px;margin:0 auto}
+.up-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;max-width:620px;margin:0 auto}
 .up-list .up-empty{grid-column:1/-1;margin:0 auto;width:100%}
-.up-card{border:1px solid rgba(232,220,181,.3);border-radius:8px;padding:18px;text-align:center;background:linear-gradient(180deg,#14121b,#0c0b10)}
+.up-card{border:1px solid rgba(232,220,181,.3);border-radius:8px;overflow:hidden;text-align:center;background:linear-gradient(180deg,#14121b,#0c0b10);display:flex;flex-direction:column}
+.up-img{position:relative;display:block;aspect-ratio:4/5;overflow:hidden;background:#000}
+.up-img img{display:block;width:100%;height:100%;object-fit:cover;object-position:55% 35%}
+.up-badge{position:absolute;left:8px;top:8px;padding:3px 10px;border-radius:999px;background:rgba(10,9,14,.75);border:1px solid rgba(232,220,181,.5);font-size:12px;color:#efe3bd;backdrop-filter:blur(4px)}
+.up-t{display:block;padding:12px 10px 14px}
 .up-when{font-size:13px;color:var(--day)}
 .up-card h3{margin:6px 0 4px;font-size:18px;word-break:keep-all}
 .up-card p{margin:0;font-size:14.5px;color:#cfc9d8;word-break:keep-all}
@@ -1177,7 +1181,7 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
   {
     const SEL = [".welcome", ".welcome-sub", ".welcome-vline", ".split-line", ".pro-title", ".pro-txt", ".pro-key",
       ".divider", ".world-h", ".world-sub", ".sub", ".lore", ".lore-fig", ".land", ".detail > .ico", ".detail > .region", ".detail > h2", ".detail > .han",
-      ".detail > .lead", ".rank-prose", ".cards .card", ".sins-desc", ".sin", ".chips", ".rg-h", ".rcard", ".plot", ".sin-god", ".realm-break", ".realm-head", ".scard", "footer"].join(",");
+      ".detail > .lead", ".rank-prose", ".cards .card", ".sins-desc", ".sin", ".chips", ".rg-h", ".rcard", ".plot", ".sin-god", ".realm-break", ".realm-head", ".scard", ".up-card", "footer"].join(",");
     const els = [...document.querySelectorAll(SEL)].filter(el => !el.closest(".cover, .signin, .lb"));
     const sibIndex = el => { const p = el.parentElement; if(!p) return 0; const kids = [...p.children].filter(k => k.matches(SEL)); return Math.max(0, kids.indexOf(el)); };
     els.forEach(el => { el.classList.add("rv"); const grid = el.matches(".card, .rcard, .plot, .land, .sin"); if(grid) el.style.setProperty("--rd", Math.min(sibIndex(el), 5) * 0.08 + "s"); });
@@ -1188,9 +1192,12 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
   }
 
   // ▼ 업로드 예정: [제목, 설명, 예정일] 형식으로 추가하면 카드가 늘어나요
-  const UPCOMING = [];
+  const UPCOMING = [
+    {name:"에스텔", role:"전 초월 마법사", img:"img/up-estel.jpg"},
+    {name:"마리아", role:"칠죄종의 집행관", img:"img/up-maria.jpg"}
+  ];
   document.getElementById("upList").innerHTML = UPCOMING.length
-    ? UPCOMING.map(([t, d, when]) => `<article class="up-card"><span class="up-when">${esc(when || "공개 예정")}</span><h3>${esc(t)}</h3>${d ? `<p>${esc(d)}</p>` : ""}</article>`).join("")
+    ? UPCOMING.map(u => `<article class="up-card">${u.img ? `<span class="up-img"><img src="${esc(u.img)}" alt="${esc(u.name)}" loading="lazy"><span class="up-badge">업로드 예정</span></span>` : ""}<span class="up-t"><span class="up-when">${esc(u.role)}</span><h3>${esc(u.name)}</h3>${u.desc ? `<p>${esc(u.desc)}</p>` : ""}</span></article>`).join("")
     : `<div class="soon up-empty"><span class="soon-star" aria-hidden="true"></span><p>준비중</p><small>업로드 예정인 플롯이 곧 이곳에 공개됩니다.</small></div>`;
 
   // ▼ 비하인드 스토리 열기
