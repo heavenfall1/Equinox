@@ -184,7 +184,8 @@ img,canvas,.cover-bg{-webkit-user-drag:none;user-drag:none;-webkit-touch-callout
 .tapnote{position:fixed;top:max(14px,env(safe-area-inset-top));left:50%;transform:translateX(-50%);z-index:31;margin:0;padding:7px 16px;border-radius:999px;background:rgba(10,9,14,.6);border:1px solid rgba(232,220,181,.3);color:#e8dcb5;font-size:13px;white-space:nowrap;pointer-events:none;backdrop-filter:blur(4px);transition:opacity .6s ease}
 .tapnote.hide{opacity:0}
 .stars{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
-.ytbox{position:fixed;left:-9999px;top:0;width:1px;height:1px;overflow:hidden;pointer-events:none}
+.ytbox{position:fixed;left:0;bottom:0;width:2px;height:2px;overflow:hidden;opacity:.01;pointer-events:none;z-index:0}
+.ytbox iframe{width:2px;height:2px}
 footer{text-align:center;color:var(--mute);font-size:13px;margin-top:64px}
 footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;margin-bottom:6px}
 @media(prefers-reduced-motion:no-preference){.detail:not([hidden]){animation:rise .45s ease}@keyframes rise{from{opacity:0;transform:translateY(10px)}}}
@@ -509,7 +510,7 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
   };
   const makePlayer = () => {
     if(yt) return;
-    yt = new YT.Player("ytPlayer", { width: 1, height: 1, videoId: BGM_ID,
+    yt = new YT.Player("ytPlayer", { width: 2, height: 2, videoId: BGM_ID,
       playerVars: { autoplay: 1, mute: 0, controls: 0, loop: 1, playlist: BGM_ID, playsinline: 1, rel: 0 },
       events: {
         onReady: () => { ytReady = true; try { yt.setVolume(50); yt.unMute(); } catch(e){}
@@ -518,22 +519,27 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
           // 소리 있는 자동 재생이 막히면, 소리 끈 채로 먼저 틀고 첫 터치 때 소리를 켜요
           setTimeout(() => { if(wantPlay && yt.getPlayerState() !== 1){ mutedStart = true; yt.mute(); yt.playVideo(); } }, 400);
         },
-        onStateChange: e => { if(e.data === 1){ setBtn(true); try { if(!yt.isMuted()) hideNote(); } catch(_){} } else if(e.data === 2) setBtn(false); else if(e.data === 0){ yt.seekTo(0); yt.playVideo(); } },
+        onStateChange: e => { if(e.data === 1){ setBtn(true); try { if(!yt.isMuted()) done(); } catch(_){} } else if(e.data === 2) setBtn(false); else if(e.data === 0){ yt.seekTo(0); yt.playVideo(); } },
         onError: () => setBtn(false)
       } });
   };
   window.onYouTubeIframeAPIReady = makePlayer;
   if(window.YT && YT.Player) makePlayer();
-  const play = () => { wantPlay = true; setBtn(true); if(ytReady){ if(mutedStart){ yt.seekTo(0, true); } yt.unMute(); yt.setVolume(50); mutedStart = false; yt.playVideo(); } else loadYT(); };
+  const play = () => { wantPlay = true; setBtn(true); if(ytReady){ if(mutedStart){ yt.seekTo(0, true); } yt.unMute(); yt.setVolume(50); mutedStart = false; yt.playVideo(); setTimeout(() => { try { if(yt.getPlayerState() === 1 && !yt.isMuted()) done(); } catch(_){} }, 600); } else loadYT(); };
   const stop = () => { wantPlay = false; setBtn(false); if(ytReady) yt.pauseVideo(); };
   bgmBtn.addEventListener("click", e => { e.stopPropagation(); if(bgmBtn.getAttribute("aria-pressed") === "true"){ userOff = true; stop(); } else { userOff = false; play(); } });
   // 첫 터치·클릭 때 자동으로 시작 (브라우저가 그 전 자동 재생은 막아요)
   const tapnote = document.getElementById("tapnote");
   const hideNote = () => tapnote.classList.add("hide");
-  const firstTouch = e => { hideNote(); removeEventListener("pointerdown", firstTouch, true); removeEventListener("keydown", firstTouch, true); removeEventListener("touchend", firstTouch, true); if(!userOff && !e.target.closest("#bgm")) play(); };
-  addEventListener("touchend", firstTouch, true);
-  addEventListener("pointerdown", firstTouch, true);
-  addEventListener("keydown", firstTouch, true);
+  // 모바일은 손가락을 뗄 때(터치 끝·클릭)만 소리 재생을 허락해서, 그 순간에 맞춰 재생해요.
+  // 스크롤처럼 허락이 안 되는 터치도 있으니 실제로 소리가 날 때까지 계속 기다려요.
+  let soundOn = false;
+  const tryStart = e => {
+    if(soundOn || userOff || (e.target && e.target.closest && e.target.closest("#bgm"))) return;
+    play();
+  };
+  const done = () => { soundOn = true; hideNote(); ["click","touchend","keydown"].forEach(t => removeEventListener(t, tryStart, true)); };
+  ["click","touchend","keydown"].forEach(t => addEventListener(t, tryStart, true));
   loadYT();
 
   // 별 배경
