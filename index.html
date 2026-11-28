@@ -442,6 +442,8 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
   };
   const ROMAN = ["I","II","III","IV","V","VI","VII","VIII","IX","X"];
   const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+  // 이름이 여러 단어면 첫 단어 뒤에서 줄을 넘겨요 (예: 오르시아 / 드 플뢰르)
+  const nameHtml = n => { const i = n.indexOf(" "); return i < 0 ? esc(n) : `${esc(n.slice(0, i))}<br>${esc(n.slice(i + 1))}`; };
 
   const ranksEl = document.getElementById("ranks");
   const rowsHtml = (r, card) => {
@@ -451,7 +453,7 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
   };
   // 모든 칭호를 누르지 않아도 처음부터 펼쳐서 보여줘요
   ranksEl.innerHTML = RANKS.map(r => `<section class="detail" id="${r.id}"><svg class="ico big ico-${r.icon}" viewBox="0 0 24 24" aria-hidden="true">${ICONS[r.icon] || ""}</svg><p class="region">${esc(r.region)}</p><h2>${esc(r.name)}</h2><p class="han">${esc(r.han)} · ${r.members.length ? "총 " + r.members.length + "인" : "인물 미공개"}</p><p class="lead">${esc(r.lead)}</p>${r.body ? `<div class="prose rank-prose">${r.body.map(t => t.startsWith("## ") ? `<h3 class="sub-h">${esc(t.slice(3))}</h3>` : `<p>${esc(t)}</p>`).join("")}</div>` : ""}
-      ${r.members.length ? "" : `<p class="empty">아직 공개된 인물이 없습니다.</p>`}${rowsHtml(r, ([pos,epi,name,img],i) => `<article class="card${name === "미공개" ? " sealed" : ""}${img ? " has-img" : ""}">${img ? `<button class="por" type="button" data-src="${esc(img)}" data-name="${esc(name)}" aria-label="${esc(name)} 이미지 크게 보기"><img src="${esc(img)}" alt="${esc(name)}" loading="lazy"></button>` : ""}<p class="pos">${esc(pos)}</p><h3>${esc(name)}</h3>${epi ? `<p class="title">‘${esc(epi)}’</p>` : ""}</article>`)}</section>`).join("");
+      ${r.members.length ? "" : `<p class="empty">아직 공개된 인물이 없습니다.</p>`}${rowsHtml(r, ([pos,epi,name,img],i) => `<article class="card${name === "미공개" ? " sealed" : ""}${img ? " has-img" : ""}">${img ? `<button class="por" type="button" data-src="${esc(img)}" data-name="${esc(name)}" aria-label="${esc(name)} 이미지 크게 보기"><img src="${esc(img)}" alt="${esc(name)}" loading="lazy"></button>` : ""}<p class="pos">${esc(pos)}</p><h3>${nameHtml(name)}</h3>${epi ? `<p class="title">‘${esc(epi)}’</p>` : ""}</article>`)}</section>`).join("");
 
   // ▼ 인물 설명: 이름을 키로 문단을 넣으면 카드에 '설명 보기'가 붙어요 ("> "로 시작하면 인용구)
   const BIO = {
@@ -720,7 +722,7 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
     const name = b.dataset.name, m = MEMBER[name] || {}, bio = BIO[name];
     lbFrom = b;
     lbImg.src = b.dataset.src; lbImg.alt = name;
-    lbName.textContent = name; lbPos.textContent = m.pos || ""; lbEpi.textContent = m.epi ? `‘${m.epi}’` : "";
+    lbName.innerHTML = nameHtml(name); lbPos.textContent = m.pos || ""; lbEpi.textContent = m.epi ? `‘${m.epi}’` : "";
     lbBio.innerHTML = bio ? bio.reduce((h, t, i, a) => {
       const li = t.startsWith("* ");
       if(li && !(a[i-1] || "").startsWith("* ")) h += "<ul>";
@@ -742,7 +744,7 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
     return layout.map(n => { const row = ms.slice(i, i + n).map(card).join(""); i += n; return `<div class="rgrid">${row}</div>`; }).join("");
   };
   const groups = RANKS.map(r => ({ r, ms: r.members.filter(([, , name, img]) => name !== "미공개" && img) })).filter(g => g.ms.length);
-  rosterEl.innerHTML = groups.map(({r, ms}) => `<section class="rgroup" data-g="${r.id}"><h3 class="rg-h"><svg class="ico ico-${r.icon}" viewBox="0 0 24 24" aria-hidden="true">${ICONS[r.icon] || ""}</svg>${esc(r.name)} <small>${ms.length}인</small></h3><div class="rrows">${rrows(r, ms, ([pos, epi, name, img]) => `<button class="rcard" type="button" data-src="${esc(img)}" data-name="${esc(name)}"><span class="rimg"><img src="${esc(img)}" alt="" loading="lazy"></span><span class="rt"><span class="rpos">${esc(pos)}</span><span class="rname">${esc(name)}</span>${epi ? `<span class="repi">‘${esc(epi)}’</span>` : ""}</span></button>`)}</div></section>`).join("");
+  rosterEl.innerHTML = groups.map(({r, ms}) => `<section class="rgroup" data-g="${r.id}"><h3 class="rg-h"><svg class="ico ico-${r.icon}" viewBox="0 0 24 24" aria-hidden="true">${ICONS[r.icon] || ""}</svg>${esc(r.name)} <small>${ms.length}인</small></h3><div class="rrows">${rrows(r, ms, ([pos, epi, name, img]) => `<button class="rcard" type="button" data-src="${esc(img)}" data-name="${esc(name)}"><span class="rimg"><img src="${esc(img)}" alt="" loading="lazy"></span><span class="rt"><span class="rpos">${esc(pos)}</span><span class="rname">${nameHtml(name)}</span>${epi ? `<span class="repi">‘${esc(epi)}’</span>` : ""}</span></button>`)}</div></section>`).join("");
   chipsEl.innerHTML = [`<button class="chip" type="button" data-g="all" aria-pressed="true">전체 <small>${groups.reduce((n, g) => n + g.ms.length, 0)}</small></button>`].concat(groups.map(({r}) => `<button class="chip" type="button" data-g="${r.id}" aria-pressed="false">${esc(r.name)}</button>`)).join("");
   chipsEl.addEventListener("click", e => { const c = e.target.closest(".chip"); if(!c) return; const g = c.dataset.g;
     chipsEl.querySelectorAll(".chip").forEach(x => x.setAttribute("aria-pressed", String(x === c)));
