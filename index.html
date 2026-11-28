@@ -268,6 +268,41 @@ img,canvas,.cover-bg{-webkit-user-drag:none;user-drag:none;-webkit-touch-callout
 .lb-box.wide .lb-txt{text-align:center}
 .lb-bio blockquote{border-left:0 !important;border-block:1px solid rgba(232,220,181,.4);text-align:center}
 .prose p,.lb-bio p,.lb-bio li{text-wrap:pretty}
+.tabs{position:sticky;top:0;z-index:12;display:flex;justify-content:center;gap:4px;margin:18px calc(-1 * max(5vw,16px)) 0;padding:10px max(5vw,16px);background:rgba(7,6,10,.82);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid rgba(232,220,181,.16)}
+.tab{appearance:none;flex:0 1 160px;min-height:44px;padding:0 14px;border:0;border-radius:999px;background:transparent;color:#a9a4b4;font:inherit;font-size:16px;font-weight:700;cursor:pointer;position:relative;transition:color .25s,background .25s}
+.tab:hover{color:#f4efe4}
+.tab[aria-selected=true]{color:#0a090e;background:linear-gradient(180deg,#f3e4b4,#d9bb72);box-shadow:0 0 18px rgba(232,220,181,.35)}
+.tab:focus-visible{outline:2px solid #e8dcb5;outline-offset:2px}
+.pane[hidden]{display:none}
+.pane-h{margin-top:clamp(40px,7vw,64px);scroll-margin-top:80px}
+@media(prefers-reduced-motion:no-preference){.pane:not([hidden]){animation:rise .5s ease}}
+.chips{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:0 auto 30px;max-width:760px}
+.chip{appearance:none;min-height:40px;padding:0 16px;border-radius:999px;border:1px solid rgba(232,220,181,.28);background:rgba(255,255,255,.03);color:#d8d3e0;font:inherit;font-size:14px;cursor:pointer;transition:all .2s}
+.chip:hover{border-color:#e8dcb5;color:#fff}
+.chip[aria-pressed=true]{background:rgba(232,220,181,.16);border-color:#e8dcb5;color:#f4efe4}
+.chip:focus-visible{outline:2px solid #e8dcb5;outline-offset:2px}
+.rgroup{margin:0 0 40px}
+.rgroup[hidden]{display:none}
+.rg-h{display:flex;align-items:center;justify-content:center;gap:10px;margin:0 0 16px;font-size:clamp(19px,2.6vw,22px)}
+.rg-h .ico{margin:0;width:22px;height:22px}
+.rg-h small{font-size:13px;font-weight:400;color:var(--mute)}
+.rgrid{display:flex;flex-wrap:wrap;justify-content:center;gap:12px}
+.rgrid .rcard{flex:0 0 calc((100% - 36px) / 4)}
+.rcard{appearance:none;font:inherit;color:inherit;text-align:center;padding:0;cursor:pointer;border:1px solid var(--line);border-radius:8px;background:linear-gradient(180deg,#14121b,#0c0b10);overflow:hidden;display:flex;flex-direction:column;position:relative;isolation:isolate;transition:transform .3s ease,box-shadow .3s ease,border-color .3s ease}
+.rcard .rimg{display:block;aspect-ratio:3/4;overflow:hidden;background:#000}
+.rcard .rimg img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 15%;transition:transform .5s}
+.rcard:hover .rimg img{transform:scale(1.05)}
+.rcard .rt{display:block;padding:10px 8px 12px}
+.rcard .rpos{display:block;font-size:12px;color:var(--day)}
+.rcard .rname{display:block;margin-top:2px;font-size:17px;font-weight:700;line-height:1.3;word-break:keep-all}
+.rcard .repi{display:block;margin-top:3px;font-size:12.5px;color:#cfc9d8;line-height:1.4;word-break:keep-all}
+.rcard::before{content:"";position:absolute;inset:0;z-index:3;border-radius:inherit;padding:1.5px;pointer-events:none;opacity:0;transition:opacity .35s ease;background:conic-gradient(from var(--ga),rgba(232,220,181,.15),#f6e7b8 12%,#fffaf0 16%,#d9bb72 22%,rgba(232,220,181,.15) 40%,rgba(232,220,181,.15) 60%,#d9bb72 72%,#fffaf0 78%,#f6e7b8 84%,rgba(232,220,181,.15));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0)}
+.rcard:hover,.rcard:focus-visible,.rcard:active{transform:translateY(-3px);border-color:transparent;box-shadow:0 0 0 1px rgba(232,220,181,.35),0 0 22px rgba(232,220,181,.28),0 18px 36px -16px rgba(0,0,0,.85);outline:none}
+.rcard:hover::before,.rcard:focus-visible::before,.rcard:active::before{opacity:1}
+@media(prefers-reduced-motion:no-preference){.rcard:hover::before,.rcard:focus-visible::before{animation:ringSpin 3.2s linear infinite}}
+@media(hover:none){.rcard:hover{transform:none}.rcard:hover::before{opacity:0}.rcard:active::before{opacity:1}}
+@media(max-width:760px){.rgrid{gap:8px}.rgrid .rcard{flex-basis:calc((100% - 16px) / 3)}.rcard .rname{font-size:15px}.rcard .repi{font-size:11.5px}.rcard .rt{padding:8px 4px 10px}}
+@media(max-width:600px){.tab{font-size:15px;flex-basis:120px}.tabs{gap:2px}}
 footer{text-align:center;color:var(--mute);font-size:13px;margin-top:64px}
 footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;margin-bottom:6px}
 @media(prefers-reduced-motion:no-preference){.detail:not([hidden]){animation:rise .45s ease}@keyframes rise{from{opacity:0;transform:translateY(10px)}}}
@@ -297,6 +332,12 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
 <main>
   <header class="profile"><img src="avatar.jpg" alt="이쿼녹스 프로필 이미지"><div><b>이쿼녹스</b><span>@Equinox_</span></div></header>
   <figure class="hero" style="margin-inline:0"><img src="banner.jpg" alt="붉은 머리와 은발의 두 인물, Equinox 로고"></figure>
+  <nav class="tabs" id="tabs" role="tablist" aria-label="사이트 메뉴">
+    <button class="tab" role="tab" id="t-world" aria-controls="world" aria-selected="true" data-tab="world">세계관</button>
+    <button class="tab" role="tab" id="t-characters" aria-controls="characters" aria-selected="false" data-tab="characters" tabindex="-1">등장인물</button>
+    <button class="tab" role="tab" id="t-plots" aria-controls="plots" aria-selected="false" data-tab="plots" tabindex="-1">플롯</button>
+  </nav>
+  <div class="pane" id="world" role="tabpanel" aria-labelledby="t-world">
 
   <p class="welcome"><b><span class="d">낮</span>과 <span class="n">밤</span>의 균형</b>, 이퀴녹스에 오신 것을 환영합니다.</p>
   <p class="welcome-sub"><span class="ph">낮과 밤의 길이가 같아지는</span> <span class="ph">찰나의 균형처럼,</span><br class="wbr"> <span class="ph">당신의 마음에도</span> <span class="ph">흔들림 없는 평온이</span> <span class="ph">찾아오길 바랍니다.</span><br> <span class="ph">버거운 현실의 무게는</span> <span class="ph">잠시 내려놓고,</span><br class="wbr"> <span class="ph">이곳에서 온전한 휴식을 누려보세요.</span></p>
@@ -335,11 +376,22 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
     <div class="sins" id="sins"></div>
   </section>
 
+  </div>
+
+  <div class="pane" id="characters" role="tabpanel" aria-labelledby="t-characters" hidden>
+    <h2 class="world-h pane-h">등장인물</h2>
+    <p class="sub">이름을 누르면 인물의 이야기를 볼 수 있어요.</p>
+    <div class="chips" id="rosterChips" role="group" aria-label="소속별 보기"></div>
+    <div id="roster"></div>
+  </div>
+
+  <div class="pane" id="plots" role="tabpanel" aria-labelledby="t-plots" hidden>
   <section class="plots-sec" aria-labelledby="plotsTitle">
-    <div class="divider" aria-hidden="true"></div>
-    <h2 id="plotsTitle" class="world-h">플롯</h2>
-    <div class="plots" id="plots"></div>
+    <h2 id="plotsTitle" class="world-h pane-h">플롯</h2>
+    <div class="plots" id="plotGrid"></div>
   </section>
+
+  </div>
 
   <footer><span class="sig">Equinox</span>낮과 밤의 균형</footer>
 </main>
@@ -663,8 +715,7 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
   ranksEl.querySelectorAll(".card").forEach(c => { const n = c.querySelector("h3")?.textContent; if(n && BIO[n]) c.classList.add("has-bio"); });
   let lbFrom = null;
   const closeLb = () => { if(lb.hidden) return; lb.hidden = true; document.documentElement.classList.remove("locked-lb"); if(lbFrom) lbFrom.focus({preventScroll:true}); };
-  ranksEl.addEventListener("click", e => {
-    const b = e.target.closest(".por"); if(!b) return;
+  const openLb = (b) => {
     const name = b.dataset.name, m = MEMBER[name] || {}, bio = BIO[name];
     lbFrom = b;
     lbImg.src = b.dataset.src; lbImg.alt = name;
@@ -679,7 +730,29 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
     lbBox.classList.toggle("wide", !!bio);
     lb.hidden = false; lbBox.scrollTop = 0; document.documentElement.classList.add("locked-lb");
     document.getElementById("lbX").focus({preventScroll:true});
-  });
+  };
+  ranksEl.addEventListener("click", e => { const b = e.target.closest(".por"); if(b) openLb(b); });
+
+  // ▼ 등장인물 탭: 정점의 존재들에 나온 인물을 소속별로 한눈에
+  const rosterEl = document.getElementById("roster"), chipsEl = document.getElementById("rosterChips");
+  const groups = RANKS.map(r => ({ r, ms: r.members.filter(([, , name, img]) => name !== "미공개" && img) })).filter(g => g.ms.length);
+  rosterEl.innerHTML = groups.map(({r, ms}) => `<section class="rgroup" data-g="${r.id}"><h3 class="rg-h"><svg class="ico ico-${r.icon}" viewBox="0 0 24 24" aria-hidden="true">${ICONS[r.icon] || ""}</svg>${esc(r.name)} <small>${ms.length}인</small></h3><div class="rgrid">${ms.map(([pos, epi, name, img]) => `<button class="rcard" type="button" data-src="${esc(img)}" data-name="${esc(name)}"><span class="rimg"><img src="${esc(img)}" alt="" loading="lazy"></span><span class="rt"><span class="rpos">${esc(pos)}</span><span class="rname">${esc(name)}</span>${epi ? `<span class="repi">‘${esc(epi)}’</span>` : ""}</span></button>`).join("")}</div></section>`).join("");
+  chipsEl.innerHTML = [`<button class="chip" type="button" data-g="all" aria-pressed="true">전체 <small>${groups.reduce((n, g) => n + g.ms.length, 0)}</small></button>`].concat(groups.map(({r}) => `<button class="chip" type="button" data-g="${r.id}" aria-pressed="false">${esc(r.name)}</button>`)).join("");
+  chipsEl.addEventListener("click", e => { const c = e.target.closest(".chip"); if(!c) return; const g = c.dataset.g;
+    chipsEl.querySelectorAll(".chip").forEach(x => x.setAttribute("aria-pressed", String(x === c)));
+    rosterEl.querySelectorAll(".rgroup").forEach(sec => { sec.hidden = g !== "all" && sec.dataset.g !== g; }); });
+  rosterEl.addEventListener("click", e => { const b = e.target.closest(".rcard"); if(b) openLb(b); });
+
+  // ▼ 상단 탭
+  const tabsEl = document.getElementById("tabs"), TABS = ["world", "characters", "plots"];
+  const showTab = (id, scroll) => {
+    if(!TABS.includes(id)) return;
+    tabsEl.querySelectorAll(".tab").forEach(t => { const on = t.dataset.tab === id; t.setAttribute("aria-selected", String(on)); t.tabIndex = on ? 0 : -1; });
+    TABS.forEach(t => { document.getElementById(t).hidden = t !== id; });
+    if(scroll){ const top = tabsEl.getBoundingClientRect().top + scrollY - 1; if(scrollY > top) scrollTo({top, behavior:"auto"}); }
+  };
+  tabsEl.addEventListener("click", e => { const t = e.target.closest(".tab"); if(!t) return; showTab(t.dataset.tab, true); history.replaceState(null, "", "#" + t.dataset.tab); });
+  tabsEl.addEventListener("keydown", e => { if(!["ArrowLeft","ArrowRight"].includes(e.key)) return; const cur = TABS.indexOf(tabsEl.querySelector('[aria-selected="true"]').dataset.tab); const nx = TABS[(cur + (e.key === "ArrowRight" ? 1 : TABS.length - 1)) % TABS.length]; showTab(nx, true); history.replaceState(null, "", "#" + nx); tabsEl.querySelector(`[data-tab="${nx}"]`).focus(); });
   lb.addEventListener("click", e => { if(e.target === lb || e.target.closest(".lb-x")) closeLb(); else if(!lbBox.classList.contains("wide")) closeLb(); });
   addEventListener("keydown", e => { if(e.key === "Escape") closeLb(); });
   // ▼ 세계관 항목: 아래 배열에 같은 형식으로 추가하면 섹션이 늘어납니다
@@ -836,7 +909,7 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
       tags:["판타지", "로맨스", "모험", "성장", "해적"], url:"https://zeta-ai.io/ko/plots/bbebb1f3-6889-43c5-89ad-5aafcbc05fac/profile"}
   ];
   const BUBBLE = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5c-5 0-9 3.3-9 7.4 0 2.4 1.4 4.5 3.5 5.9l-.8 3.4 3.9-2.1c.8.2 1.6.2 2.4.2 5 0 9-3.3 9-7.4S17 3.5 12 3.5z" fill="currentColor"/></svg>';
-  document.getElementById("plots").innerHTML = PLOTS.map(pl => {
+  document.getElementById("plotGrid").innerHTML = PLOTS.map(pl => {
     const inner = `<div class="pimg"><img src="${esc(pl.img)}" alt="${esc(pl.title)} 표지" loading="lazy"></div>
       <div class="pbody"><h3>${esc(pl.title)}</h3><p class="pdesc">${esc(pl.desc)}</p><p class="tags">${pl.tags.map(t => "#" + esc(t)).join(" ")}</p></div>`;
     return pl.url ? `<a class="plot" href="${esc(pl.url)}" target="_blank" rel="noopener">${inner}</a>` : `<article class="plot">${inner}</article>`;
@@ -958,7 +1031,7 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
     if(!still) requestAnimationFrame(loop);
   }
 
-  const fromHash = () => { const id = location.hash.slice(1); const el = id && document.getElementById(id); if(el && el.classList.contains("detail")) requestAnimationFrame(() => el.scrollIntoView({behavior:"smooth", block:"start"})); };
+  const fromHash = () => { const id = location.hash.slice(1); if(TABS.includes(id)){ showTab(id, true); return; } const el = id && document.getElementById(id); if(el && el.classList.contains("detail")){ showTab("world"); requestAnimationFrame(() => el.scrollIntoView({behavior:"smooth", block:"start"})); } };
   addEventListener("hashchange", fromHash);
   fromHash();
 }
