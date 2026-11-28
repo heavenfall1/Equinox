@@ -28,7 +28,10 @@ main{position:relative;max-width:880px;margin:0 auto;padding:0 max(5vw,16px) 80p
 .welcome{text-align:center;margin:28px 0 8px;font-size:clamp(17px,2.4vw,20px);line-height:1.6;color:#f3f1f7;text-wrap:balance;word-break:keep-all;text-shadow:0 1px 10px rgba(0,0,0,.8)}
 .welcome b{font-weight:700;color:#ffffff}.welcome .d{color:#ff6f7d}.welcome .n{color:#cfd8ff}
 .sub{text-align:center;color:var(--mute);font-size:14px;margin:-16px 0 32px}
-.divider{height:1px;max-width:520px;margin:56px auto 36px;background:linear-gradient(90deg,transparent,rgba(201,206,222,.35),transparent)}
+.divider{position:relative;height:18px;max-width:560px;margin:60px auto 38px}
+.divider::before{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:linear-gradient(90deg,transparent,rgba(232,220,181,.5) 38%,transparent 47%,transparent 53%,rgba(232,220,181,.5) 62%,transparent)}
+.divider::after{content:"";position:absolute;left:50%;top:50%;width:14px;height:14px;transform:translate(-50%,-50%);background:#f4ead0;clip-path:polygon(50% 0,60% 40%,100% 50%,60% 60%,50% 100%,40% 60%,0 50%,40% 40%);filter:drop-shadow(0 0 6px rgba(244,234,208,.8))}
+@media(prefers-reduced-motion:no-preference){.divider::after{animation:glim 3.2s ease-in-out infinite}@keyframes glim{50%{opacity:.55;transform:translate(-50%,-50%) scale(.82)}}}
 .tier{display:flex;flex-wrap:wrap;justify-content:center;gap:12px}
 .tier+.tier{margin-top:28px}
 .rank{appearance:none;border:1px solid var(--line);background:var(--panel);color:var(--ink);font:inherit;font-size:clamp(16px,2.2vw,19px);font-weight:700;padding:14px 22px;min-height:48px;border-radius:4px;cursor:pointer;flex:1 1 150px;max-width:200px;position:relative;transition:border-color .25s,transform .25s}
