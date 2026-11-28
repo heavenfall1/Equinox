@@ -362,6 +362,10 @@ button.sin:hover::before,button.sin:focus-visible::before,button.sin:active::bef
 .sin.sin-lead .lead-more{border-color:rgba(214,220,232,.5);color:#e3e8f1}
 button.sin.sin-lead::before{background:conic-gradient(from var(--ga),rgba(214,220,232,.15),#eef1f7 12%,#fff 16%,#b9c2d2 22%,rgba(214,220,232,.15) 40%,rgba(214,220,232,.15) 60%,#b9c2d2 72%,#fff 78%,#eef1f7 84%,rgba(214,220,232,.15))}
 button.sin.sin-lead:hover,button.sin.sin-lead:focus-visible,button.sin.sin-lead:active{box-shadow:0 0 0 1px rgba(214,220,232,.4),0 0 26px rgba(214,220,232,.3) !important}
+button.sin.sin-god::before{background:conic-gradient(from var(--ga),rgba(232,220,181,.15),#f6e7b8 12%,#fffaf0 16%,#d9bb72 22%,rgba(232,220,181,.15) 40%,rgba(232,220,181,.15) 60%,#d9bb72 72%,#fffaf0 78%,#f6e7b8 84%,rgba(232,220,181,.15))}
+button.sin.sin-god:hover,button.sin.sin-god:focus-visible,button.sin.sin-god:active{box-shadow:0 0 0 1px rgba(232,220,181,.4),0 0 28px rgba(232,220,181,.3)}
+.god-more{border-color:rgba(232,220,181,.5) !important;color:#efe3bd !important}
+.lb-bio .ph{display:inline-block;white-space:nowrap}
 footer{text-align:center;color:var(--mute);font-size:13px;margin-top:64px}
 footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;margin-bottom:6px}
 @media(prefers-reduced-motion:no-preference){.detail:not([hidden]){animation:rise .45s ease}@keyframes rise{from{opacity:0;transform:translateY(10px)}}}
@@ -439,7 +443,7 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
     <h3 id="godTitle" class="world-h">창조신 루타비스</h3>
     <p class="sub">유일무이한 창조자이자 절대신</p>
     <div class="sins-desc"><p><span class="ph">루타비스는 신들 중 하나로,</span><br><span class="ph">이 세계와 만물, 그리고 법칙을</span> <span class="ph">무(無)에서 창조해 낸 절대신이다.</span></p><p class="god-dark"><span class="ph">창조의 권능을 지닌 존재이지만,</span> <span class="ph">어째서 이 세계를 만들었는지,</span><br><span class="ph">신계에서 무엇을 하는지는</span> <span class="ph">아무도 모른다.</span></p></div>
-    <div class="sin-lead-wrap"><div class="sin sin-god"><span class="sin-t">세계의 창조자</span><b>루타비스</b></div></div>
+    <div class="sin-lead-wrap"><button class="sin sin-god" id="godCard" type="button" aria-haspopup="dialog"><span class="sin-t">세계의 창조자</span><b>루타비스</b><span class="lead-more god-more">설명 보기</span></button></div>
   </section>
 
   <section class="sins-sec" aria-labelledby="sinsTitle">
@@ -812,15 +816,21 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
   ranksEl.addEventListener("click", e => { const b = e.target.closest(".por"); if(b) openLb(b); });
   // ▼ 칠죄종의 총수 설명 (이미지 없이 글만)
   const LEAD_BIO = ["칠죄종의 총수는 일곱 집행관과 결을 달리하는 별도의 존재다.", "인간이 아닌 신을 심판하는 집행관으로, 루타비스에게 선택받은 자가 아니라 루타비스와 협력하는 자로 전해진다.", "그 정체와 모습은 아직 누구에게도 드러난 바 없다."];
-  document.getElementById("leadCard").addEventListener("click", e => {
-    lbFrom = e.currentTarget;
+  const openText = (from, pos, name, epi, html) => {
+    lbFrom = from;
     lbImg.removeAttribute("src"); lbImg.alt = "";
-    lbPos.textContent = "칠죄종의 총수"; lbName.textContent = "미공개"; lbEpi.textContent = "‘칠죄종(七罪宗)의 집행관’";
-    lbBio.innerHTML = LEAD_BIO.map(t => `<p>${esc(t).replace("신을 심판하는 집행관", `<b class="lead-em">신을 심판하는 집행관</b>`)}</p>`).join("");
+    lbPos.textContent = pos; lbName.textContent = name; lbEpi.textContent = epi;
+    lbBio.innerHTML = html;
     lbBox.classList.remove("wide"); lbBox.classList.add("noimg");
     lb.hidden = false; lbBox.scrollTop = 0; document.documentElement.classList.add("locked-lb");
     document.getElementById("lbX").focus({preventScroll:true});
-  });
+  };
+  document.getElementById("leadCard").addEventListener("click", e => openText(e.currentTarget, "칠죄종의 총수", "미공개", "‘칠죄종(七罪宗)의 집행관’",
+    LEAD_BIO.map(t => `<p>${esc(t).replace("신을 심판하는 집행관", `<b class="lead-em">신을 심판하는 집행관</b>`)}</p>`).join("")));
+  // ▼ 루타비스 설명
+  const GOD_BIO = [["루타비스는 신계에 존재하는", "신들 중 한 명으로,", "신계에서 어떤 존재인지는", "아무에게도 알려져 있지 않다."]];
+  document.getElementById("godCard").addEventListener("click", e => openText(e.currentTarget, "세계의 창조자", "루타비스", "‘유일무이한 창조자이자 절대신’",
+    GOD_BIO.map(ps => `<p>${ps.map(x => `<span class="ph">${esc(x)}</span>`).join(" ")}</p>`).join("")));
 
   // ▼ 등장인물 탭: 정점의 존재들에 나온 인물을 소속별로 한눈에
   const rosterEl = document.getElementById("roster"), chipsEl = document.getElementById("rosterChips");
