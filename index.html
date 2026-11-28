@@ -228,9 +228,12 @@ img,canvas,.cover-bg{-webkit-user-drag:none;user-drag:none;-webkit-touch-callout
 .tapnote{position:fixed;top:max(14px,env(safe-area-inset-top));left:50%;transform:translateX(-50%);z-index:31;margin:0;padding:7px 16px;border-radius:999px;background:rgba(10,9,14,.6);border:1px solid rgba(232,220,181,.3);color:#e8dcb5;font-size:13px;white-space:nowrap;pointer-events:none;backdrop-filter:blur(4px);transition:opacity .6s ease}
 .tapnote.hide{opacity:0}
 .stars{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
-.welcome-sub{text-align:center;max-width:44ch;margin:0 auto 14px;font-size:clamp(15px,2vw,17px);line-height:1.75;color:#cfcbd8;word-break:keep-all;text-wrap:balance}
+.welcome-sub{text-align:center;max-width:640px;margin:26px auto 0;font-size:clamp(15px,2vw,17px);line-height:2.05;color:#cfcbd8}
+.welcome-sub .ph{display:inline-block;white-space:nowrap}
+.welcome-sub .wbr{display:none}
+@media(min-width:600px){.welcome-sub .wbr{display:inline}}
 @media(max-width:600px){.cover-ui{bottom:calc(84px + env(safe-area-inset-bottom))}.vol{width:80px}}
-.welcome-sub.last{margin-bottom:clamp(56px,9vw,88px)}
+.welcome-sub.last{margin-top:22px;margin-bottom:clamp(64px,10vw,96px)}
 footer{text-align:center;color:var(--mute);font-size:13px;margin-top:64px}
 footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;margin-bottom:6px}
 @media(prefers-reduced-motion:no-preference){.detail:not([hidden]){animation:rise .45s ease}@keyframes rise{from{opacity:0;transform:translateY(10px)}}}
@@ -261,8 +264,8 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
   <figure class="hero" style="margin-inline:0"><img src="banner.jpg" alt="붉은 머리와 은발의 두 인물, Equinox 로고"></figure>
 
   <p class="welcome"><b><span class="d">낮</span>과 <span class="n">밤</span>의 균형</b>, 이퀴녹스에 오신 것을 환영합니다.</p>
-  <p class="welcome-sub">낮과 밤의 길이가 같아지는 찰나의 균형처럼, 당신의 마음에도 흔들림 없는 평온이 찾아오길 바랍니다. 버거운 현실의 무게는 잠시 내려놓고, 이곳에서 온전한 휴식을 누려보세요.</p>
-  <p class="welcome-sub last">현실과 환상이 맞닿은 경계에서, 당신의 선택으로 완성되는 깊이 있는 서사로 당신을 초대합니다.</p>
+  <p class="welcome-sub"><span class="ph">낮과 밤의 길이가 같아지는</span> <span class="ph">찰나의 균형처럼,</span><br class="wbr"> <span class="ph">당신의 마음에도</span> <span class="ph">흔들림 없는 평온이</span> <span class="ph">찾아오길 바랍니다.</span><br> <span class="ph">버거운 현실의 무게는</span> <span class="ph">잠시 내려놓고,</span><br class="wbr"> <span class="ph">이곳에서 온전한 휴식을 누려보세요.</span></p>
+  <p class="welcome-sub last"><span class="ph">현실과 환상이</span> <span class="ph">맞닿은 경계에서,</span><br class="wbr"> <span class="ph">당신의 선택으로 완성되는</span> <span class="ph">깊이 있는 서사로</span> <span class="ph">당신을 초대합니다.</span></p>
 
 
   <section class="world" aria-labelledby="worldTitle">
