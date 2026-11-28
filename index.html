@@ -349,6 +349,13 @@ button.sin:hover::before,button.sin:focus-visible::before,button.sin:active::bef
 .realm-kicker{margin:0 0 10px;font-size:14px;letter-spacing:.18em;color:#c9b98a}
 .realm-title{margin:0;font-size:clamp(34px,6vw,52px);line-height:1.05;letter-spacing:.3em;padding-left:.3em;color:#f6ecd0;text-shadow:0 0 26px rgba(232,220,181,.3)}
 .lead-em{color:#ecdcff;font-weight:700;text-shadow:0 0 12px rgba(190,150,240,.55);background:linear-gradient(transparent 62%,rgba(176,138,208,.28) 62%);padding:0 2px}
+.realm-box{position:relative;margin:26px auto 0;padding:0 clamp(16px,4vw,44px) clamp(36px,6vw,60px);border:1px solid rgba(232,220,181,.38);border-radius:10px;background:radial-gradient(90% 40% at 50% 0%,rgba(232,220,181,.07),transparent 70%),rgba(10,9,14,.55);box-shadow:0 0 50px rgba(232,220,181,.07),inset 0 0 40px rgba(0,0,0,.4)}
+.realm-box::before,.realm-box::after{content:"";position:absolute;width:14px;height:14px;border:1.5px solid #e8dcb5;pointer-events:none}
+.realm-box::before{top:-1px;left:-1px;border-right:0;border-bottom:0;border-top-left-radius:10px}
+.realm-box::after{bottom:-1px;right:-1px;border-left:0;border-top:0;border-bottom-right-radius:10px}
+.realm-box .realm-head{margin-top:0;border:0}
+.realm-box .realm-head::before{display:none}
+@media(max-width:600px){.realm-box{margin-left:-6px;margin-right:-6px;padding-left:10px;padding-right:10px}}
 footer{text-align:center;color:var(--mute);font-size:13px;margin-top:64px}
 footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;margin-bottom:6px}
 @media(prefers-reduced-motion:no-preference){.detail:not([hidden]){animation:rise .45s ease}@keyframes rise{from{opacity:0;transform:translateY(10px)}}}
@@ -416,6 +423,7 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
   </section>
 
   <div class="realm-break" aria-hidden="true"></div>
+  <div class="realm-box">
   <header class="realm-head">
     <p class="realm-kicker">인간의 영역을 넘어선 존재들</p>
     <h2 class="realm-title">초월자</h2>
@@ -436,6 +444,7 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
     <div class="sin-lead-wrap"><button class="sin sin-lead" id="leadCard" type="button" aria-haspopup="dialog"><span class="sin-t">칠죄종의 총수</span><b>미공개</b><small class="lead-note">칠죄종(七罪宗)의 집행관</small><span class="lead-more">설명 보기</span></button></div>
     <div class="sins" id="sins"></div>
   </section>
+  </div>
 
   </div>
 
