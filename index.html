@@ -185,7 +185,6 @@ main{z-index:1}
 @keyframes uiIn{from{opacity:0;transform:translateY(14px)}}
 @keyframes bob{50%{transform:translateY(5px)}}}
 @media(max-width:600px){
-  .prose,.land .desc,.rank-prose,.detail .lead,.land-detail .prose{text-align:left !important}
   .prose{font-size:16px;line-height:1.8}
   .welcome{margin-top:22px}
   .detail .lead,.lore .epi,.land-detail .lsum{word-break:keep-all}
@@ -252,7 +251,6 @@ img,canvas,.cover-bg{-webkit-user-drag:none;user-drag:none;-webkit-touch-callout
 .sins-desc{max-width:62ch;margin:0 auto 34px;padding:0 4px}
 .sins-desc p{margin:0 0 1em;font-size:16px;line-height:1.9;color:#d8d3e0;word-break:keep-all;text-align:center}
 .sins-desc p:last-child{margin:0}
-@media(max-width:600px){.sins-desc p{text-align:left}}
 
 /* 캐릭터·플롯·대륙 카드: 마우스를 올리거나 선택하면 금빛 테두리가 빛나며 돌아요 */
 @property --ga{syntax:"<angle>";inherits:false;initial-value:0deg}
@@ -265,6 +263,11 @@ img,canvas,.cover-bg{-webkit-user-drag:none;user-drag:none;-webkit-touch-callout
 @media(prefers-reduced-motion:no-preference){.card:hover::before,.plot:hover::before,.land:hover::before,.card:focus-within::before,.plot:focus-visible::before,.land:focus-visible::before,.land[aria-expanded=true]::before{animation:ringSpin 3.2s linear infinite}@keyframes ringSpin{to{--ga:360deg}}}
 .card.sealed:hover,.card.sealed:active{transform:none}
 @media(hover:none){.card:hover,.plot:hover,.land:hover{transform:none}.card:hover::before,.plot:hover::before,.land:hover::before{opacity:0}.card:active::before,.plot:active::before,.land:active::before,.land[aria-expanded=true]::before{opacity:1}}
+/* 설명 텍스트 전부 가운데 정렬 */
+.prose,.prose p,.rank-prose,.land-detail .prose,.lb-bio,.lb-bio p,.lb-bio li,.lb-bio h4,.sins-desc p,.detail .lead,.lore .epi{text-align:center !important}
+.lb-box.wide .lb-txt{text-align:center}
+.lb-bio blockquote{border-left:0 !important;border-block:1px solid rgba(232,220,181,.4);text-align:center}
+.prose p,.lb-bio p,.lb-bio li{text-wrap:pretty}
 footer{text-align:center;color:var(--mute);font-size:13px;margin-top:64px}
 footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;margin-bottom:6px}
 @media(prefers-reduced-motion:no-preference){.detail:not([hidden]){animation:rise .45s ease}@keyframes rise{from{opacity:0;transform:translateY(10px)}}}
