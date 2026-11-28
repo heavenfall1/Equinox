@@ -119,7 +119,7 @@ main{position:relative;max-width:880px;margin:0 auto;padding:0 max(5vw,16px) 80p
 .land{appearance:none;font:inherit;color:inherit;text-align:inherit;padding:0;cursor:pointer;border:1px solid var(--line);border-radius:6px;background:linear-gradient(180deg,#13111a,#0c0b10);display:flex;flex-direction:column;overflow:hidden;transition:border-color .25s,transform .25s}
 .land:hover{border-color:#4a4656;transform:translateY(-2px)}
 .land:focus-visible{outline:2px solid var(--night);outline-offset:3px}
-.land[aria-expanded=true]{border-color:var(--day);box-shadow:0 0 0 1px var(--day) inset}
+
 .land .pic{position:relative;display:block;aspect-ratio:2/3;overflow:hidden;width:100%}
 .land .pic img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .6s}
 .land:hover .pic img{transform:scale(1.04)}
@@ -253,6 +253,18 @@ img,canvas,.cover-bg{-webkit-user-drag:none;user-drag:none;-webkit-touch-callout
 .sins-desc p{margin:0 0 1em;font-size:16px;line-height:1.9;color:#d8d3e0;word-break:keep-all;text-align:center}
 .sins-desc p:last-child{margin:0}
 @media(max-width:600px){.sins-desc p{text-align:left}}
+
+/* 캐릭터·플롯·대륙 카드: 마우스를 올리거나 선택하면 금빛 테두리가 빛나며 돌아요 */
+@property --ga{syntax:"<angle>";inherits:false;initial-value:0deg}
+.card,.plot,.land{position:relative;isolation:isolate;transition:transform .3s ease,box-shadow .3s ease,border-color .3s ease}
+.card::before,.plot::before,.land::before{content:"";position:absolute;inset:0;z-index:3;border-radius:inherit;padding:1.5px;pointer-events:none;opacity:0;transition:opacity .35s ease;
+  background:conic-gradient(from var(--ga),rgba(232,220,181,.15),#f6e7b8 12%,#fffaf0 16%,#d9bb72 22%,rgba(232,220,181,.15) 40%,rgba(232,220,181,.15) 60%,#d9bb72 72%,#fffaf0 78%,#f6e7b8 84%,rgba(232,220,181,.15));
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0)}
+.card:hover,.plot:hover,.land:hover,.card:focus-within,.plot:focus-visible,.land:focus-visible,.card:active,.plot:active,.land:active,.land[aria-expanded=true]{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(232,220,181,.35),0 0 22px rgba(232,220,181,.28),0 18px 36px -16px rgba(0,0,0,.85);border-color:transparent}
+.card:hover::before,.plot:hover::before,.land:hover::before,.card:focus-within::before,.plot:focus-visible::before,.land:focus-visible::before,.card:active::before,.plot:active::before,.land:active::before,.land[aria-expanded=true]::before{opacity:1}
+@media(prefers-reduced-motion:no-preference){.card:hover::before,.plot:hover::before,.land:hover::before,.card:focus-within::before,.plot:focus-visible::before,.land:focus-visible::before,.land[aria-expanded=true]::before{animation:ringSpin 3.2s linear infinite}@keyframes ringSpin{to{--ga:360deg}}}
+.card.sealed:hover,.card.sealed:active{transform:none}
+@media(hover:none){.card:hover,.plot:hover,.land:hover{transform:none}.card:hover::before,.plot:hover::before,.land:hover::before{opacity:0}.card:active::before,.plot:active::before,.land:active::before,.land[aria-expanded=true]::before{opacity:1}}
 footer{text-align:center;color:var(--mute);font-size:13px;margin-top:64px}
 footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;margin-bottom:6px}
 @media(prefers-reduced-motion:no-preference){.detail:not([hidden]){animation:rise .45s ease}@keyframes rise{from{opacity:0;transform:translateY(10px)}}}
