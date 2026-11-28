@@ -784,7 +784,7 @@ footer .sig{font:28px/1 "Pinyon Script",cursive;color:var(--ink);display:block;m
   };
   ranksEl.addEventListener("click", e => { const b = e.target.closest(".por"); if(b) openLb(b); });
   // ▼ 칠죄종의 총수 설명 (이미지 없이 글만)
-  const LEAD_BIO = ["칠죄종의 총수는 일곱 집행관 위에 선 존재다.", "인간이 아닌 신을 심판하는 집행관으로, 루타비스의 선택을 받은 자가 아니라 루타비스와 협력하는 자로 알려져 있다.", "그 정체와 모습은 아직 누구에게도 드러나지 않았다."];
+  const LEAD_BIO = ["칠죄종의 총수는 일곱 집행관과 결을 달리하는 별도의 존재다.", "인간이 아닌 신을 심판하는 집행관으로, 루타비스에게 선택받은 자가 아니라 루타비스와 협력하는 자로 전해진다.", "그 정체와 모습은 아직 누구에게도 드러난 바 없다."];
   document.getElementById("leadCard").addEventListener("click", e => {
     lbFrom = e.currentTarget;
     lbImg.removeAttribute("src"); lbImg.alt = "";
